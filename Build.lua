@@ -14,4 +14,5 @@ group "Core"
 	include "Core/Build-Core.lua"
 group ""
 
+include "Dependencies.lua"
 include "App/Build-App.lua"

@@ -7,13 +7,25 @@ project "Core"
 
    files { "Source/**.h", "Source/**.cpp" }
 
-   includedirs
-   {
-      "Source"
-   }
-
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+
+   includedirs
+   {
+      "Source",
+      "%{IncludeDir.SDL}", 
+      "%{IncludeDir.ImGui}", 
+      "%{IncludeDir.glad}", 
+      "%{IncludeDir.IconFontCppHeaders}"
+   }
+
+   links
+   {
+      "ImGui",
+      "SDL2", 
+      "SDL2main", 
+      "Glad"
+   }
 
    filter "system:windows"
        systemversion "latest"
