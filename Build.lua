@@ -1,5 +1,5 @@
 -- premake5.lua
-workspace "New Project"
+workspace "smol"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
    startproject "App"
