@@ -17,7 +17,7 @@ project "smolEditor"
 
    links
    {
-      "Core"
+      "smolEngine"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

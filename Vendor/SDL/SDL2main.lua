@@ -13,8 +13,8 @@ project "SDL2main"
 
 	location         "Intermediate/ProjectFiles/%{_ACTION}"
 
-	targetdir        "Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-	objdir           "Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+	targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
+    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
 	includedirs     {"include"}
 

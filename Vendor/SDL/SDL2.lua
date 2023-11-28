@@ -14,6 +14,7 @@ filter {}
 
 language "C++" -- Some files are C++ files, although they
 cppdialect "C++20" -- are not needed on normal Windows.
+targetdir "Binaries/%{cfg.buildcfg}"
 
 systemversion "latest"
 
@@ -24,8 +25,8 @@ vectorextensions "SSE" -- Necessary to run x32.
 
 location "Intermediate/ProjectFiles/%{_ACTION}"
 
-targetdir "Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-objdir "Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
+objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
 includedirs {"include"}
 
@@ -80,23 +81,24 @@ defines {"_WINDOWS"}
 postbuildcommands {"{COPY} \"%{cfg.buildtarget.relpath}\" \"%{wks.location}Output\""}
 
 filter "configurations:Debug"
-defines {"_DEBUG"}
-runtime "Debug"
-symbols "On"
+	defines {
+		"_DEBUG"
+	}
+    runtime "Debug"
+    symbols "On"
 
 filter "configurations:Release"
-defines {"NDEBUG"}
-runtime "Release"
-optimize "Speed"
+	defines {
+		"NDEBUG"
+	}
+    runtime "Release"
+    optimize "On"
+    symbols "On"
 
-filter "configurations:Development" -- These are the configurations I tend to
-defines { -- use in my projects, but I have added 
-"NDEBUG" -- the default ones anyway.
-}
-runtime "Release"
-optimize "On"
-
-filter "configurations:Ship"
-defines {"NDEBUG"}
-runtime "Release"
-optimize "Speed"
+filter "configurations:Dist"
+	defines {
+		"NDEBUG"
+	}
+    runtime "Release"
+    optimize "On"
+    symbols "Off"

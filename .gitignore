@@ -12,3 +12,15 @@ Makefile
 
 # Exclude
 !Vendor/Binaries
+/Vendor/Binaries/Intermediates/windows-x86_64/Debug/Glad/Glad.tlog
+/Vendor/Binaries/Intermediates/windows-x86_64/Debug/ImGui/ImGui.tlog
+*.obj
+*.recipe
+*.tlog
+*.pdb
+*.idb
+*.ilk
+/Vendor/Binaries/windows-x86_64/Debug/Glad
+/Vendor/Binaries/windows-x86_64/Debug/ImGui
+/Vendor/Binaries/windows-x86_64/Debug/SDL2
+/Vendor/Binaries/windows-x86_64/Debug/SDL2main
