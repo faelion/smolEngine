@@ -15,8 +15,11 @@ project "smolEngine"
       "Source",
       "%{IncludeDir.SDL}", 
       "%{IncludeDir.ImGui}", 
-      "%{IncludeDir.glad}", 
-      "%{IncludeDir.IconFontCppHeaders}"
+      "%{IncludeDir.IconFontCppHeaders}",
+      "%{IncludeDir.assimp}",
+      "%{IncludeDir.glew}",
+      "%{IncludeDir.glm}",
+      "%{IncludeDir.spdlog}"
    }
 
    links
@@ -24,7 +27,9 @@ project "smolEngine"
       "ImGui",
       "SDL2", 
       "SDL2main", 
-      "Glad"
+	  "opengl32.lib",
+	  "../Vendor/Glew/lib/glew32.lib",
+	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
 
    filter "system:windows"

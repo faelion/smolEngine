@@ -1,15 +1,17 @@
 -- You can put your dependencies here
 IncludeDir = {}
-IncludeDir["ImGui"] = "../vendor/imgui/"
-IncludeDir["SDL"] = "../vendor/SDL/include/"
-IncludeDir["glad"] = "../vendor/Glad/include/"
-IncludeDir["IconFontCppHeaders"] = "../vendor/IconFontCppHeaders/"
+IncludeDir["ImGui"] = "../Vendor/imgui/"
+IncludeDir["SDL"] = "../Vendor/SDL/include/"
+IncludeDir["IconFontCppHeaders"] = "../Vendor/IconFontCppHeaders/"
+IncludeDir["assimp"] = "../Vendor/assimp/include/"
+IncludeDir["glew"] = "../Vendor/Glew/include/"
+IncludeDir["glm"] = "../Vendor/glm/glm/"
+IncludeDir["spdlog"] = "../Vendor/spdlog/include/"
 
 
 
 group "Dependencies"
-include "vendor/ImGui"
-include "vendor/Glad"
-include "vendor/SDL/SDL2.lua"
-include "vendor/SDL/SDL2main.lua"
+include "Vendor/ImGui"
+include "Vendor/SDL/SDL2.lua"
+include "Vendor/SDL/SDL2main.lua"
 group ""

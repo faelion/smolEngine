@@ -11,10 +11,10 @@ workspace "smol"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "smolEngine"
-	include "Core/Build-Core.lua"
     include "Dependencies.lua"
 group ""
 
+include "Core/Build-Core.lua"
 include "App/Build-App.lua"
 
 postbuildcommands {"{COPY} \"%{wks.location}/Binaries/" .. OutputDir .. "/%{prj.name}\" \"%{wks.location}Output\""}

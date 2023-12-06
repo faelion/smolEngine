@@ -10,6 +10,7 @@ project "smolEditor"
    includedirs
    {
       "Source",
+	  "%{IncludeDir.ImGui}",
 
 	  -- Include Core
 	  "../Core/Source"
@@ -17,7 +18,8 @@ project "smolEditor"
 
    links
    {
-      "smolEngine"
+      "smolEngine",
+	  "ImGui"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
