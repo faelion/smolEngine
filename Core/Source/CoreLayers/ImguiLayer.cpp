@@ -6,22 +6,22 @@ namespace smol {
 	ImguiLayer::ImguiLayer()
 		: Layer("ImguiLayer")
 	{
-		imgui = std::make_unique<ImguiEnabler>(true);
+		m_ImguiEnabler = std::make_unique<ImguiEnabler>(true);
 
 		//The order matters
-		AddModule(imgui.get());
+		AddModule(m_ImguiEnabler.get());
 	}
 
 	ImguiLayer::~ImguiLayer(){}
 
 	void ImguiLayer::Begin()
 	{
-		imgui->BeginUI();
+		m_ImguiEnabler->BeginUI();
 	}
 
 	void ImguiLayer::End()
 	{
-		imgui->EndUI();
+		m_ImguiEnabler->EndUI();
 	}
 
 }

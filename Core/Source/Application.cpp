@@ -43,8 +43,6 @@ namespace smol {
 				layer->OnImGuiRender();
 		}
 		m_ImguiLayer->End();
-
-		m_Window->OnUpdate();
 	}
 
 	void App::FinishUpdate()

@@ -29,15 +29,13 @@ namespace smol {
 
 		inline static ImGuiLog& GetLog() { return s_Log; }
 		inline ImGuiLog& GetConsole() { return m_Console; }
-		inline ImGuiContext* GetContext() { return imgui->GetImguiContext(); }
+		inline ImGuiContext* GetContext() { return m_ImguiEnabler->GetImguiContext(); }
 	private:
 		inline static ImGuiLog s_Log;
 	private:
+		ImGuiLog m_Console;
 
 		// Modules
-		std::unique_ptr<ImguiEnabler> imgui;
-
-		ImGuiLog m_Console;
-		float m_Time = 0.0f;
+		std::unique_ptr<ImguiEnabler> m_ImguiEnabler;
 	};
 }

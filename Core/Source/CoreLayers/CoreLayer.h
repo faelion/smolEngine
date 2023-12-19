@@ -10,10 +10,11 @@ namespace smol {
 		CoreLayer();
 		~CoreLayer();
 
+		inline Window& GetWindow() { return *m_Window; }
+
 	private:
 		//Modules
-		std::unique_ptr<Window> win;
-
+		std::unique_ptr<Window> m_Window;
 	};
 
 }

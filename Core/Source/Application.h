@@ -35,7 +35,16 @@ namespace smol
 		void PushOverlay(Layer* overlay);
 
 
+		inline int GetArgC() { return m_argC; }
+		inline const char* GetArgv(int index) { return m_argv[index].c_str(); }
+
 		inline static App& Get() { return *s_Instance; }
+		inline CoreLayer& GetCore() { return *m_CoreLayer; }
+		inline Window& GetWindow() { return m_CoreLayer->GetWindow(); }
+		inline ImguiLayer& GetImguiLayer() { return *m_ImguiLayer; }
+
+
+		inline ImGuiContext* GetImGuiContext() { return m_ImguiLayer->GetContext(); }
 
 	private:
 		LayerStack m_LayerStack;
