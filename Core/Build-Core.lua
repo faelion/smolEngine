@@ -10,6 +10,9 @@ project "smolEngine"
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
+   pchheader "smolPCH.h"
+   pchsource "Core/Source/smolPCH.cpp"
+
    includedirs
    {
       "Source",
@@ -32,9 +35,12 @@ project "smolEngine"
 	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
 
+   -- For now it only works in windows
    filter "system:windows"
        systemversion "latest"
-       defines { }
+       defines {
+       "SMOL_PLATFORM_WINDOWS"
+       }
 
    filter "configurations:Debug"
        defines { "DEBUG" }
