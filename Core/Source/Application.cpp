@@ -3,15 +3,28 @@
 const size_t TYPE_COUNT = __COUNTER__;
 
 namespace smol {
+
+#define BIND_EVENT_FN(x) std::bind(&App::x, this, std::placeholders::_1)
+
 	App* App::s_Instance = nullptr;
 
 	App::App(int argc, char** argv)
 	{
+		SMOL_CORE_ASSERT(!s_Instance, "Application already exists!");
+
 		m_argC = argc;
 
 		for (int i = 0; i < argc; i++) {
 			m_argv.push_back(argv[i]);
 		}
+
+
+		m_CoreLayer = std::make_unique<CoreLayer>();
+		m_ImguiLayer = std::make_unique<ImguiLayer>();
+
+
+		PushLayer(m_CoreLayer.get());
+		PushLayer(m_ImguiLayer.get());
 	}
 
 	App::~App() = default;
@@ -33,6 +46,12 @@ namespace smol {
 
 	void App::Update()
 	{
+		SDL_Event e;
+		while (SDL_PollEvent(&e))
+		{
+			OnEvent(&e);
+		}
+
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
 
@@ -79,16 +98,17 @@ namespace smol {
 	void App::OnEvent(SDL_Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>({ &Application::OnWindowClose, this });
-		dispatcher.Dispatch<OnSaveEvent>({ &Application::OnSave, this });
-		dispatcher.Dispatch<OnLoadEvent>({ &Application::OnLoad, this });
+		dispatcher.Dispatch<SDL_QuitEvent>(BIND_EVENT_FN(OnWindowClose));
+		/*dispatcher.Dispatch<OnSaveEvent>({ &Application::OnSave, this });
+		dispatcher.Dispatch<OnLoadEvent>({ &Application::OnLoad, this });*/
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
-			if (e.Handled)
+			if (e.user.code)
 				break;
 		}
+		RELEASE_EVENT(e);
 	}
 
 	void App::PushLayer(Layer* layer)
@@ -101,4 +121,30 @@ namespace smol {
 		m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
+
+
+	bool App::OnWindowClose(SDL_QuitEvent& e)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	void App::RegisterEvents()
+	{
+		const int max = static_cast<int>(EventType::NUM_CUSTOM_EVENTS);
+		Uint32 customEventTypes[max];
+
+		Uint32 customEventStart = SDL_RegisterEvents(max);
+		if (customEventStart != ((Uint32)-1)) {
+			for (int i = 0; i < max; i++) {
+				customEventTypes[i] = customEventStart + i;
+			}
+			// Los eventos ahora están registrados y listos para ser usados
+		}
+		else {
+			// Manejar el error si no se pudieron registrar los eventos
+			SMOL_CORE_ERROR("Events couldn't register!");
+		}
+	}
+
 }

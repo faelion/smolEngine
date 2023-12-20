@@ -47,6 +47,10 @@ namespace smol
 		inline ImGuiContext* GetImGuiContext() { return m_ImguiLayer->GetContext(); }
 
 	private:
+		bool OnWindowClose(SDL_QuitEvent& e);
+
+		void RegisterEvents();
+
 		LayerStack m_LayerStack;
 		std::unique_ptr<ImguiLayer> m_ImguiLayer;
 		std::unique_ptr<CoreLayer> m_CoreLayer;

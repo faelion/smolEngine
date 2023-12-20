@@ -1,9 +1,6 @@
-#include "smolPCH.h"
 #include "Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-
-#include "ImGui/ImGuiLayer.h"
-#include "ImGui/ImGuiLog.h"
+#include "CoreLayers/ImguiLayer.h"
 #include "Application.h"
 
 namespace smol {
@@ -56,22 +53,22 @@ namespace smol {
 	}
 	void Log::ImGuiConsoleTrace(const char* log)
 	{
-		Application::Get().GetImGuiLayer().LogTrace(log);
+		App::Get().GetImguiLayer().LogTrace(log);
 	}
 	void Log::ImGuiConsoleInfo(const char* log)
 	{
-		Application::Get().GetImGuiLayer().LogInfo(log);
+		App::Get().GetImguiLayer().LogInfo(log);
 	}
 	void Log::ImGuiConsoleWarn(const char* log)
 	{
-		Application::Get().GetImGuiLayer().LogWarn(log);
+		App::Get().GetImguiLayer().LogWarn(log);
 	}
 	void Log::ImGuiConsoleError(const char* log)
 	{
-		Application::Get().GetImGuiLayer().LogError(log);
+		App::Get().GetImguiLayer().LogError(log);
 	}
 	void Log::ImGuiConsoleCritical(const char* log)
 	{
-		Application::Get().GetImGuiLayer().LogCritical(log);
+		App::Get().GetImguiLayer().LogCritical(log);
 	}
 }

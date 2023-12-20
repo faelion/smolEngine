@@ -3,10 +3,8 @@
 #include "Defs.h"
 
 #include "imgui.h"
-
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
-
 #include "Utils/ImguiLog.h"
 
 namespace smol {

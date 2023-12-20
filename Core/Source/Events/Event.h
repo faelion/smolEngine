@@ -1,38 +1,38 @@
 #pragma once
 
-#include "smolPCH.h"
 #include "Defs.h"
 #include "SDL_events.h"
 
+
+#define PUSH_CUSTOM_EVENT(eventType) \
+    SDL_UserEvent customEvent; \
+    SDL_zero(customEvent); \
+    customEvent.data1 = eventType; \
+    customEvent.type = eventType->GetEventType(); \
+    customEvent.user.code = 0; \
+    SDL_PushEvent(&customEvent);
+
+#define RELEASE_EVENT(e) delete e.user.data1
+
+
 namespace smol {
-	enum class EventType
+
+	enum class EventType // Custom Event Type
 	{
-		None = 0,
-		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
-		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased, KeyTyped,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-		OnLoad, OnSave, OnMaterialChange, OnEntityChange
+		USER_SAVE = 0,
+		USER_LOAD,
+		USER_MATERIAL_CHANGE,
+		USER_ENTITY_CHANGE,
+		NUM_CUSTOM_EVENTS // Siempre al final, para contar el número de eventos
 	};
 
-	enum EventCategory
-	{
-		None = 0, 
-		EventCategoryApplication	= BIT(0),
-		EventCategoryInput			= BIT(1),
-		EventCategoryKeyboard		= BIT(2),
-		EventCategoryMouse			= BIT(3),
-		EventCategoryMouseButton	= BIT(4),
-		EventCategoryEditor			= BIT(5)
-	};
+
 
 #define EVENT_CLASS_TYPE(type) static smol::EventType GetStaticType() { return  smol::EventType::##type; } \
 								virtual  smol::EventType GetEventType() const override { return GetStaticType(); } \
 								virtual const char* GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
-
-	class SDL_Event : public SDL_Event
+	class CustomEvent
 	{
 		friend class EventDispatcher;
 	public:
@@ -41,19 +41,13 @@ namespace smol {
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category)
-		{
-			return GetCategoryFlags() & category;
-		}
-
 	public:
-		bool Handled = false;
 	};
-	
+
 	class EventDispatcher
 	{
 		template<typename T>
-		using EventFn = Fn::Function<bool,T&>;
+		using EventFn = std::function<bool, T&>;
 
 	public:
 		EventDispatcher(SDL_Event& event) : m_Event(event)
@@ -63,9 +57,9 @@ namespace smol {
 		template<typename T>
 		bool Dispatch(EventFn<T> func)
 		{
-			if (m_Event.GetEventType() == T::GetStaticType())
+			if (m_Event.type == T::type)
 			{
-				m_Event.Handled = func(*(T*)&m_Event);
+				m_Event.code = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
