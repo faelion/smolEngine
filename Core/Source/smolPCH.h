@@ -6,8 +6,6 @@
 #include <algorithm>
 #include <chrono>
 #include <functional>
-//#include <Wiwa/utilities/Action.h>
-//#include <Wiwa/utilities/Function.h>
 
 #include <string>
 #include <sstream>
@@ -21,5 +19,5 @@
 
 #ifdef SMOL_PLATFORM_WINDOWS
 #include <Windows.h>
-#endif // ZO_PLATFORM_WINDOWS
+#endif
 

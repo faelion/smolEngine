@@ -84,7 +84,7 @@ namespace smol
 	size_t getAppTypeCount() const override { return TYPE_COUNT; } \
 	const Type* getAppType(size_t index) const override { return GET_TYPES()->at(index); } \
 	const Type* getAppTypeH(size_t hash) const override { \
-		const Wiwa::Array<const Type*, TYPE_COUNT>* types = GET_TYPES(); \
+		const smol::Array<const Type*, TYPE_COUNT>* types = GET_TYPES(); \
 		const Type* type = NULL; \
 		for (size_t i = 0; i < TYPE_COUNT; i++) { \
 			if (types->at(i)->hash == hash) { \

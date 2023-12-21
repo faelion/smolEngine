@@ -1,3 +1,4 @@
+#include "smolPCH.h"
 #include "Application.h"
 
 const size_t TYPE_COUNT = __COUNTER__;
@@ -10,7 +11,7 @@ namespace smol {
 
 	App::App(int argc, char** argv)
 	{
-		SMOL_CORE_ASSERT(!s_Instance, "Application already exists!");
+		SMOL_CORE_ASSERT(!s_Instance, "App already exists!");
 
 		m_argC = argc;
 
@@ -99,8 +100,8 @@ namespace smol {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<SDL_QuitEvent>(BIND_EVENT_FN(OnWindowClose));
-		/*dispatcher.Dispatch<OnSaveEvent>({ &Application::OnSave, this });
-		dispatcher.Dispatch<OnLoadEvent>({ &Application::OnLoad, this });*/
+		/*dispatcher.Dispatch<OnSaveEvent>({ &App::OnSave, this });
+		dispatcher.Dispatch<OnLoadEvent>({ &App::OnLoad, this });*/
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{

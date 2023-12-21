@@ -22,6 +22,7 @@ project "smolEngine"
       "%{IncludeDir.assimp}",
       "%{IncludeDir.glew}",
       "%{IncludeDir.glm}",
+      "%{IncludeDir.DevIL}", 
       "%{IncludeDir.spdlog}"
    }
 
@@ -32,10 +33,13 @@ project "smolEngine"
       "SDL2main", 
 	  "opengl32.lib",
 	  "../Vendor/Glew/lib/glew32.lib",
+	  "../Vendor/DevIL/lib/DevIL.lib",
+	  "../Vendor/DevIL/lib/ILU.lib",
+	  "../Vendor/DevIL/lib/ILUT.lib",
 	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
 
-   -- For now it only works in windows
+   -- Only works in windows actually
    filter "system:windows"
        systemversion "latest"
        defines {

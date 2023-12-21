@@ -6,6 +6,7 @@ IncludeDir["IconFontCppHeaders"] = "../Vendor/IconFontCppHeaders/"
 IncludeDir["assimp"] = "../Vendor/assimp/include/"
 IncludeDir["glew"] = "../Vendor/Glew/include/"
 IncludeDir["glm"] = "../Vendor/glm/glm/"
+IncludeDir["DevIL"] = "../Vendor/DevIL/include/"
 IncludeDir["spdlog"] = "../Vendor/spdlog/include/"
 
 

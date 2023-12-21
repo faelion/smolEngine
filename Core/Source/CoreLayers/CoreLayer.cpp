@@ -1,3 +1,4 @@
+#include "smolPCH.h"
 #include "CoreLayer.h"
 
 namespace smol {
