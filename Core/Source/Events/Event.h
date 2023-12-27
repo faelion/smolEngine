@@ -1,6 +1,5 @@
 #pragma once
-
-#include "Defs.h"
+#include "smolPCH.h"
 #include "SDL_events.h"
 
 
@@ -12,7 +11,7 @@
     customEvent.user.code = 0; \
     SDL_PushEvent(&customEvent);
 
-#define RELEASE_EVENT(e) delete e.user.data1
+#define RELEASE_EVENT(e) delete e.user.data1;
 
 
 namespace smol {
@@ -46,20 +45,18 @@ namespace smol {
 
 	class EventDispatcher
 	{
-		template<typename T>
-		using EventFn = std::function<bool, T&>;
-
 	public:
 		EventDispatcher(SDL_Event& event) : m_Event(event)
 		{
 		}
 
-		template<typename T>
-		bool Dispatch(EventFn<T> func)
+		// F will be deduced by the compiler
+		template<typename T, typename F>
+		bool Dispatch(const F& func)
 		{
-			if (m_Event.type == T::type)
+			if (m_Event.type == T().type)
 			{
-				m_Event.code = func(*(T*)&m_Event);
+				m_Event.user.code = func(m_Event);
 				return true;
 			}
 			return false;
@@ -67,9 +64,4 @@ namespace smol {
 	private:
 		SDL_Event& m_Event;
 	};
-
-	inline std::ostream& operator<<(std::ostream& os, const SDL_Event& e)
-	{
-		return os << e.ToString();
-	}
 }

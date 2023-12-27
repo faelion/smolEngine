@@ -1,6 +1,6 @@
 #pragma once
 
-class SDL_Event;
+#include "SDL_events.h"
 
 namespace smol {
 	class LayerModule

@@ -11,7 +11,7 @@ project "smolEngine"
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    pchheader "smolPCH.h"
-   pchsource "Core/Source/smolPCH.cpp"
+   pchsource "Source/smolPCH.cpp"
 
    includedirs
    {
@@ -38,6 +38,10 @@ project "smolEngine"
 	  "../Vendor/DevIL/lib/ILUT.lib",
 	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
+
+   postbuildcommands ("{COPY} %{cfg.buildtarget.relpath} ../Output")
+
+   debugdir "$(SolutionDir)/Output"
 
    -- Only works in windows actually
    filter "system:windows"

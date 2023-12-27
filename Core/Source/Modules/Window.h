@@ -38,6 +38,8 @@ namespace smol {
 
 		inline WindowData& GetWindowData() { return m_Data; }
 
+		inline SDL_Window* Get() { return m_Window; }
+
 		inline uint32_t GetWidth() const { return m_Data.Width; }
 		inline uint32_t GetHeight() const { return m_Data.Height; }
 		inline bool GetFullScreen() const { return m_Fullscreen; }

@@ -47,7 +47,7 @@ namespace smol
 		inline ImGuiContext* GetImGuiContext() { return m_ImguiLayer->GetContext(); }
 
 	private:
-		bool OnWindowClose(SDL_QuitEvent& e);
+		bool OnWindowClose(SDL_Event& e);
 
 		void RegisterEvents();
 

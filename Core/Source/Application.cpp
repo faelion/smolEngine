@@ -50,7 +50,7 @@ namespace smol {
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
-			OnEvent(&e);
+			OnEvent(e);
 		}
 
 		for (Layer* layer : m_LayerStack)
@@ -124,7 +124,7 @@ namespace smol {
 	}
 
 
-	bool App::OnWindowClose(SDL_QuitEvent& e)
+	bool App::OnWindowClose(SDL_Event& e)
 	{
 		m_Running = false;
 		return true;

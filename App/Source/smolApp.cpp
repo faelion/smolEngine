@@ -24,6 +24,9 @@ smol::App* smol::CreateApplication(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
+	smol::Log::Init();
+	SMOL_CORE_WARN("Initialized Log!");
+
 	auto app = smol::CreateApplication(argc, argv);
 
 	app->Run();

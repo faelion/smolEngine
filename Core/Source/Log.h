@@ -1,6 +1,5 @@
 #pragma once
 #pragma warning(disable : 4251)
-#include "Defs.h"
 
 #include "imgui.h"
 #include "spdlog/spdlog.h"

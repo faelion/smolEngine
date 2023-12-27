@@ -2929,7 +2929,7 @@ static void stbtt__fill_active_edges(unsigned char *scanline, int len, stbtt__ac
 static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e, int n, int vsubsample, int off_x, int off_y, void *userdata)
 {
    stbtt__hheap hh = { 0, 0, 0 };
-   stbtt__active_edge *m_active = NULL;
+   stbtt__active_edge *active = NULL;
    int y,j=0;
    int max_weight = (255 / vsubsample);  // weight per vertical scanline
    int s; // vertical subsample index
@@ -2948,7 +2948,7 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
       for (s=0; s < vsubsample; ++s) {
          // find center of pixel for this scanline
          float scan_y = y + 0.5f;
-         stbtt__active_edge **step = &m_active;
+         stbtt__active_edge **step = &active;
 
          // update all active edges;
          // remove all active edges that terminate before the center of this scanline
@@ -2968,7 +2968,7 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
          // resort the list if needed
          for(;;) {
             int changed=0;
-            step = &m_active;
+            step = &active;
             while (*step && (*step)->next) {
                if ((*step)->x > (*step)->next->x) {
                   stbtt__active_edge *t = *step;
@@ -2990,15 +2990,15 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
                stbtt__active_edge *z = stbtt__new_active(&hh, e, off_x, scan_y, userdata);
                if (z != NULL) {
                   // find insertion point
-                  if (m_active == NULL)
-                     m_active = z;
-                  else if (z->x < m_active->x) {
+                  if (active == NULL)
+                     active = z;
+                  else if (z->x < active->x) {
                      // insert at front
-                     z->next = m_active;
-                     m_active = z;
+                     z->next = active;
+                     active = z;
                   } else {
                      // find thing to insert AFTER
-                     stbtt__active_edge *p = m_active;
+                     stbtt__active_edge *p = active;
                      while (p->next && p->next->x < z->x)
                         p = p->next;
                      // at this point, p->next->x is NOT < z->x
@@ -3011,8 +3011,8 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
          }
 
          // now process all active edges in XOR fashion
-         if (m_active)
-            stbtt__fill_active_edges(scanline, result->w, m_active, max_weight);
+         if (active)
+            stbtt__fill_active_edges(scanline, result->w, active, max_weight);
 
          ++y;
       }

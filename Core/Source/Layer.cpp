@@ -51,7 +51,7 @@ namespace smol
 		for (auto it = m_modules.end(); it != m_modules.begin();)
 		{
 			(*--it)->OnEvent(e);
-			if (e.Handled)
+			if (e.user.code)
 				break;
 		}
 	}

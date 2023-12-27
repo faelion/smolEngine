@@ -2,7 +2,6 @@ project "ImGui"
 	kind "StaticLib"
 	language "C++"
     cppdialect "C++20"
-    targetdir "Binaries/%{cfg.buildcfg}"
     staticruntime "off"
 
 	targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

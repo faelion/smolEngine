@@ -52,7 +52,7 @@ namespace smol {
 	void ImguiEnabler::BeginUI()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame(app->win->window);
+		ImGui_ImplSDL2_NewFrame(App::Get().GetWindow().Get());
 		ImGui::NewFrame();
 		//ImGuizmo::BeginFrame();
 
@@ -64,7 +64,7 @@ namespace smol {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 
-		io.DisplaySize = ImVec2((float)app->win->width, (float)app->win->height);
+		io.DisplaySize = ImVec2((float)App::Get().GetWindow().GetWindowData().Width, (float)App::Get().GetWindow().GetWindowData().Height);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -81,7 +81,7 @@ namespace smol {
 			SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
 		}
 
-		SDL_GL_SwapWindow(app->win->window);
+		SDL_GL_SwapWindow(App::Get().GetWindow().Get());
 	}
 
 	void ImguiEnabler::SetDarkTheme()

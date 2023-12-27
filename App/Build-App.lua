@@ -25,6 +25,10 @@ project "smolEditor"
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
+   postbuildcommands ("{COPY} %{cfg.buildtarget.relpath} ../Output")
+
+   debugdir "$(SolutionDir)/Output"
+
    filter "system:windows"
        systemversion "latest"
        defines { "WINDOWS" }
