@@ -10,6 +10,7 @@ project "smolEditor"
    includedirs
    {
       "Source",
+	  "%{IncludeDir.SPDLOG}",
 	  "%{IncludeDir.ImGui}",
 
 	  -- Include Core

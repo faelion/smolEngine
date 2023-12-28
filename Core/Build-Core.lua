@@ -16,14 +16,14 @@ project "smolEngine"
    includedirs
    {
       "Source",
+	  "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.SDL}", 
       "%{IncludeDir.ImGui}", 
       "%{IncludeDir.IconFontCppHeaders}",
       "%{IncludeDir.assimp}",
       "%{IncludeDir.glew}",
       "%{IncludeDir.glm}",
-      "%{IncludeDir.DevIL}", 
-      "%{IncludeDir.spdlog}"
+      "%{IncludeDir.DevIL}"
    }
 
    links
