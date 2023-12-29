@@ -16,21 +16,21 @@ project "smolEngine"
    includedirs
    {
       "Source",
-	  "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.SDL}", 
+	  "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.ImGui}", 
       "%{IncludeDir.IconFontCppHeaders}",
       "%{IncludeDir.assimp}",
-      "%{IncludeDir.glew}",
-      "%{IncludeDir.glm}",
+      "%{IncludeDir.Glew}",
+      "%{IncludeDir.GLM}",
       "%{IncludeDir.DevIL}"
    }
 
    links
    {
-      "ImGui",
       "SDL2", 
-      "SDL2main", 
+      "SDL2main",
+      "ImGui",
 	  "opengl32.lib",
 	  "../Vendor/Glew/lib/glew32.lib",
 	  "../Vendor/DevIL/lib/DevIL.lib",
@@ -38,8 +38,8 @@ project "smolEngine"
 	  "../Vendor/DevIL/lib/ILUT.lib",
 	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
-
-   postbuildcommands ("{COPY} %{cfg.buildtarget.relpath} ../Output")
+   
+   postbuildcommands {"{COPY} \"%{wks.location}/Binaries/" .. OutputDir .. "/%{prj.name}\" \"%{wks.location}Output\""}
 
    debugdir "$(SolutionDir)/Output"
 

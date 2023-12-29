@@ -17,11 +17,8 @@
 
 // You can use unmodified imgui_impl_* files in your project. See examples/ folder for examples of using this.
 // Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.
-// Learn about Dear ImGui:
-// - FAQ                  https://dearimgui.com/faq
-// - Getting Started      https://dearimgui.com/getting-started
-// - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
-// - Introduction, links and more at the top of imgui.cpp
+// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
+// Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 // CHANGELOG
 // (minor and older changes stripped away, please see git history for details)
@@ -651,22 +648,11 @@ bool    ImGui_ImplDX12_CreateDeviceObjects()
               float2 uv  : TEXCOORD0;\
             };\
             \
-            float4 SRGBtoLinear(float4 srgbColor) {\
-                float3 linearColor;\
-                for (int i = 0; i < 3; ++i) { \
-                    if (srgbColor[i] <= 0.04045) { \
-                    linearColor[i] = srgbColor[i] / 12.92; \
-                    } else { \
-                        linearColor[i] = pow((srgbColor[i] + 0.055) / 1.055, 2.4); \
-                    }\
-                }\
-                return float4(linearColor, srgbColor.a);\
-            }\
             PS_INPUT main(VS_INPUT input)\
             {\
               PS_INPUT output;\
               output.pos = mul( ProjectionMatrix, float4(input.pos.xy, 0.f, 1.f));\
-              output.col = SRGBtoLinear(input.col);\
+              output.col = input.col;\
               output.uv  = input.uv;\
               return output;\
             }";

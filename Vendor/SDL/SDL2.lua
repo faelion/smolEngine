@@ -14,7 +14,6 @@ filter {}
 
 language "C++" -- Some files are C++ files, although they
 cppdialect "C++20" -- are not needed on normal Windows.
-targetdir "Binaries/%{cfg.buildcfg}"
 
 systemversion "latest"
 
@@ -23,10 +22,11 @@ flags {"NoRuntimeChecks", -- Only used on Visual Studio.
 
 vectorextensions "SSE" -- Necessary to run x32.
 
-location "Intermediate/ProjectFiles/%{_ACTION}"
+location "ProjectFiles/%{_ACTION}"
 
-targetdir "Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-objdir "Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+
+targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
+objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
 includedirs {"include"}
 

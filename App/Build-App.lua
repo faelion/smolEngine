@@ -10,8 +10,10 @@ project "smolEditor"
    includedirs
    {
       "Source",
+      "%{IncludeDir.SDL}", 
 	  "%{IncludeDir.SPDLOG}",
 	  "%{IncludeDir.ImGui}",
+      "%{IncludeDir.IconFontCppHeaders}",
 
 	  -- Include Core
 	  "../Core/Source"
@@ -20,13 +22,14 @@ project "smolEditor"
    links
    {
       "smolEngine",
-	  "ImGui"
+      "ImGui",
+      "SDL2main"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
-
-   postbuildcommands ("{COPY} %{cfg.buildtarget.relpath} ../Output")
+   
+   postbuildcommands {"{COPY} \"%{wks.location}/Binaries/" .. OutputDir .. "/%{prj.name}\" \"%{wks.location}Output\""}
 
    debugdir "$(SolutionDir)/Output"
 

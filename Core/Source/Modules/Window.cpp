@@ -94,6 +94,9 @@ namespace smol {
 		// Quit SDL subsystems
 		SDL_Quit();
 	}
+	void Window::OnEvent(SDL_Event& e)
+	{
+	}
 	void Window::SetVSync(bool enabled)
 	{
 		if (enabled)
