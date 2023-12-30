@@ -19,6 +19,8 @@ namespace smol {
 			m_argv.push_back(argv[i]);
 		}
 
+		s_Instance = this;
+
 
 		m_CoreLayer = std::make_unique<CoreLayer>();
 		m_ImguiLayer = std::make_unique<ImguiLayer>();
@@ -109,7 +111,11 @@ namespace smol {
 			if (e.user.code)
 				break;
 		}
-		RELEASE_EVENT(e);
+
+		if (e.user.code == 1)
+		{
+			RELEASE_EVENT(e);
+		}
 	}
 
 	void App::PushLayer(Layer* layer)

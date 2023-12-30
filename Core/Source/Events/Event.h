@@ -11,7 +11,11 @@
     customEvent.user.code = 0; \
     SDL_PushEvent(&customEvent);
 
-#define RELEASE_EVENT(e) delete e.user.data1;
+#define RELEASE_EVENT(e) \
+	if(e.user.data1 != nullptr) \
+	delete e.user.data1; \
+	if(e.user.data2 != nullptr) \
+	delete e.user.data2; \
 
 
 namespace smol {

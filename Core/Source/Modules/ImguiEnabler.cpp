@@ -16,6 +16,7 @@ namespace smol {
 	{
 		SMOL_CORE_INFO("Init Imgui Enabler");
 
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		m_Ctx = ImGui::CreateContext();
@@ -25,6 +26,9 @@ namespace smol {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
+		// Init ImGUI for Opengl
+		ImGui_ImplSDL2_InitForOpenGL(App::Get().GetWindow().Get(), m_Ctx);
+		ImGui_ImplOpenGL3_Init("#version 450");
 
 		// Setup Dear ImGui style
 		SetDarkTheme();
@@ -132,11 +136,11 @@ namespace smol {
 		style->GrabRounding = 3.0f;
 
 		// TODO
-		ImGuiIO& io = ImGui::GetIO();
+		/*ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromFileTTF("resources/fonts/Roboto-Regular.ttf", 15);
 		io.Fonts->AddFontFromFileTTF("resources/fonts/Roboto-Regular.ttf", 13);
 		io.Fonts->AddFontFromFileTTF("resources/fonts/Roboto-Regular.ttf", 18);
-		io.Fonts->AddFontFromFileTTF("resources/fonts/Roboto-Regular.ttf", 23);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/Roboto-Regular.ttf", 23);*/
 		/*style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 		style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 		style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
