@@ -64,11 +64,15 @@ namespace smol {
 			//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 			m_Window = SDL_CreateWindow(m_Data.Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_Data.Width, m_Data.Height, flags);
-
 			if (m_Window == NULL)
 				{SMOL_CORE_WARN("Window is NULL!");}
 			else
+			{
 				m_ScreenSurface = SDL_GetWindowSurface(m_Window);
+				gl_context = SDL_GL_CreateContext(m_Window);
+				if (!gl_context)
+					{SMOL_CORE_WARN("glContext is NULL!");}
+			}
 		}
 
 		GLenum status = glewInit();

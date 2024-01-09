@@ -41,6 +41,7 @@ namespace smol
 		inline static App& Get() { return *s_Instance; }
 		inline CoreLayer& GetCore() { return *m_CoreLayer; }
 		inline Window& GetWindow() { return m_CoreLayer->GetWindow(); }
+		inline SDL_Window* GetNativeWindow() { return m_CoreLayer->GetWindow().Get(); }
 		inline ImguiLayer& GetImguiLayer() { return *m_ImguiLayer; }
 
 

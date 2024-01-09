@@ -86,7 +86,7 @@ namespace smol {
 			SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
 		}
 
-		SDL_GL_SwapWindow(App::Get().GetWindow().Get());
+		SDL_GL_SwapWindow(App::Get().GetNativeWindow());
 	}
 
 	void ImguiEnabler::SetDarkTheme()

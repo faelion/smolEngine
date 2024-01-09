@@ -54,7 +54,7 @@ namespace smol {
 
 	private:
 		SDL_Window* m_Window;
-
+		SDL_GLContext gl_context;
 		SDL_Surface* m_ScreenSurface;
 	};
 

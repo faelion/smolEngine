@@ -86,16 +86,14 @@ namespace smol {
 		m_averageFps = (m_averageFps + lastFPS) / 2;
 		//fpsHistory.push_back(lastFPS);
 
-		//// Replace oldest data in the history
 		//if (fpsHistory.size() > 100) fpsHistory.erase(fpsHistory.begin());
 
 		// Shows the time measurements in the window title
 		static char title[256];
-		sprintf_s(title, 256, "smolEngine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS: %.5f, frame cap: %s, vsync: %s",
+		sprintf_s(title, 256, "smolEngine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS: %.5f, frame cap: %s"/*, vsync: % s*/,
 			lastFPS, m_averageFps, frameDuration * 1000000, m_frcap ? "on" : "off"/*, app->render->vsync ? "on" : "off"*/);
 
-
-		//app->win->SetTitle(title);
+		GetWindow().SetTitle(title);
 	}
 
 	void App::OnEvent(SDL_Event& e)
