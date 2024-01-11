@@ -1,9 +1,7 @@
 #include "smolPCH.h"
 #include "Modules/ImguiEnabler.h"
-#include <backends/imgui_impl_sdl2.h>
-#include <backends/imgui_impl_opengl3.h>
-//#include <backends/imgui_impl_sdl2.cpp>
-//#include <backends/imgui_impl_opengl3.cpp>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_opengl3.h>
 #include "Application.h"
 
 namespace smol {

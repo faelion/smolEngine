@@ -1,13 +1,14 @@
 -- You can put your dependencies here
 IncludeDir = {}
-IncludeDir["ImGui"] = "../Vendor/ImGui/"
-IncludeDir["SDL"] = "../Vendor/SDL/include/"
-IncludeDir["IconFontCppHeaders"] = "../Vendor/IconFontCppHeaders/"
-IncludeDir["assimp"] = "../Vendor/assimp/include"
-IncludeDir["Glew"] = "../Vendor/Glew/include"
-IncludeDir["GLM"] = "../Vendor/glm/glm"
-IncludeDir["DevIL"] = "../Vendor/DevIL/include"
-IncludeDir["SPDLOG"] = "../Vendor/spdlog/include"
+IncludeDir["ImGui"] = "%{wks.location}/Vendor/ImGui/"
+IncludeDir["backends"] = "%{wks.location}/Vendor/ImGui/backends"
+IncludeDir["SDL"] = "%{wks.location}/Vendor/SDL/include/"
+IncludeDir["IconFontCppHeaders"] = "%{wks.location}/Vendor/IconFontCppHeaders/"
+IncludeDir["assimp"] = "%{wks.location}/Vendor/assimp/include"
+IncludeDir["Glew"] = "%{wks.location}/Vendor/Glew/include"
+IncludeDir["GLM"] = "%{wks.location}/Vendor/glm/glm"
+IncludeDir["DevIL"] = "%{wks.location}/Vendor/DevIL/include"
+IncludeDir["SPDLOG"] = "%{wks.location}/Vendor/spdlog/include"
 
 
 

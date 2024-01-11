@@ -6,6 +6,13 @@ project "ImGui"
 	targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
     objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
+    includedirs
+    {
+      "",
+      "backends",
+      "%{IncludeDir.SDL}"
+    }
+
 	files
 	{
 		"imconfig.h",
@@ -18,7 +25,13 @@ project "ImGui"
 		"imstb_rectpack.h",
 		"imstb_textedit.h",
 		"imstb_truetype.h",
-		"imgui_demo.cpp"
+		"imgui_demo.cpp",
+        "backends/imgui_impl_sdl2.h",
+        "backends/imgui_impl_sdl2.cpp",
+        "backends/imgui_impl_opengl3.h",
+        "backends/imgui_impl_opengl3.cpp",
+        "backends/imgui_impl_opengl3_loader.h"
+
 	}
 
 	filter "system:windows"

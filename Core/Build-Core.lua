@@ -19,6 +19,7 @@ project "smolEngine"
       "%{IncludeDir.SDL}", 
 	  "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.ImGui}", 
+      "%{IncludeDir.backends}", 
       "%{IncludeDir.IconFontCppHeaders}",
       "%{IncludeDir.assimp}",
       "%{IncludeDir.Glew}",
