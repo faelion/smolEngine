@@ -40,6 +40,7 @@ namespace smol {
 			Update();
 			FinishUpdate();
 		}
+		CleanUp();
 	}
 
 	void App::PrepareUpdate()
@@ -99,7 +100,8 @@ namespace smol {
 	void App::OnEvent(SDL_Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<SDL_QuitEvent>(BIND_EVENT_FN(OnWindowClose));
+		if(e.type == SDL_QUIT)
+		dispatcher.Dispatch<SDL_QUIT>(BIND_EVENT_FN(OnWindowClose));
 		/*dispatcher.Dispatch<OnSaveEvent>({ &App::OnSave, this });
 		dispatcher.Dispatch<OnLoadEvent>({ &App::OnLoad, this });*/
 
@@ -110,7 +112,8 @@ namespace smol {
 				break;
 		}
 
-		if (e.user.code == 1)
+		//Check if event is custom
+		if (isCustomEvent(e))
 		{
 			RELEASE_EVENT(e);
 		}
@@ -150,6 +153,12 @@ namespace smol {
 			// Manejar el error si no se pudieron registrar los eventos
 			SMOL_CORE_ERROR("Events couldn't register!");
 		}
+	}
+
+	void App::CleanUp()
+	{
+		for (Layer* layer : m_LayerStack)
+			layer->CleanUp();
 	}
 
 }

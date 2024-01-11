@@ -64,4 +64,11 @@ namespace smol
 			m->OnRenderUI();
 		}
 	}
+	void Layer::CleanUp()
+	{
+		for (auto const& m : m_modules)
+		{
+			m->CleanUp();
+		}
+	}
 }

@@ -52,6 +52,8 @@ namespace smol
 
 		void RegisterEvents();
 
+		void CleanUp();
+
 		LayerStack m_LayerStack;
 		std::unique_ptr<ImguiLayer> m_ImguiLayer;
 		std::unique_ptr<CoreLayer> m_CoreLayer;

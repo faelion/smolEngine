@@ -22,12 +22,20 @@ namespace smol {
 
 	enum class EventType // Custom Event Type
 	{
-		USER_SAVE = 0,
+		USER_SAVE = SDL_USEREVENT,
 		USER_LOAD,
 		USER_MATERIAL_CHANGE,
 		USER_ENTITY_CHANGE,
 		NUM_CUSTOM_EVENTS // Siempre al final, para contar el número de eventos
 	};
+
+	inline bool isCustomEvent(const SDL_Event& e)
+	{
+		if (e.type >= SDL_USEREVENT && e.type < (Uint32)EventType::NUM_CUSTOM_EVENTS)
+			return true;
+		else
+			return false;
+	}
 
 
 
@@ -55,10 +63,10 @@ namespace smol {
 		}
 
 		// F will be deduced by the compiler
-		template<typename T, typename F>
+		template<unsigned int et, typename F>
 		bool Dispatch(const F& func)
 		{
-			if (m_Event.type == T().type)
+			if (m_Event.type == et)
 			{
 				m_Event.user.code = func(m_Event);
 				return true;
