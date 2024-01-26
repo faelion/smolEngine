@@ -6,9 +6,11 @@ IncludeDir["SDL"] = "%{wks.location}/Vendor/SDL/include/"
 IncludeDir["IconFontCppHeaders"] = "%{wks.location}/Vendor/IconFontCppHeaders/"
 IncludeDir["assimp"] = "%{wks.location}/Vendor/assimp/include"
 IncludeDir["Glew"] = "%{wks.location}/Vendor/Glew/include"
-IncludeDir["GLM"] = "%{wks.location}/Vendor/glm/glm"
-IncludeDir["DevIL"] = "%{wks.location}/Vendor/DevIL/include"
+IncludeDir["GLM"] = "%{wks.location}/Vendor/glm"
 IncludeDir["SPDLOG"] = "%{wks.location}/Vendor/spdlog/include"
+IncludeDir["JSON"] = "%{wks.location}/Vendor/rapidjson"
+IncludeDir["STB"] = "%{wks.location}/Vendor/stb"
+IncludeDir["GLI"] = "%{wks.location}/Vendor/gli/gli"
 
 
 

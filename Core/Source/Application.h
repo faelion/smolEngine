@@ -3,6 +3,7 @@
 #include "LayerStack.h"
 #include "CoreLayers/ImguiLayer.h"
 #include "CoreLayers/CoreLayer.h"
+#include "Modules/Renderer.h"
 
 namespace smol
 {
@@ -43,6 +44,7 @@ namespace smol
 		inline Window& GetWindow() { return m_CoreLayer->GetWindow(); }
 		inline SDL_Window* GetNativeWindow() { return m_CoreLayer->GetWindow().Get(); }
 		inline ImguiLayer& GetImguiLayer() { return *m_ImguiLayer; }
+		inline Input& GetInput() { return  m_CoreLayer->GetInput(); }
 
 
 		inline ImGuiContext* GetImGuiContext() { return m_ImguiLayer->GetContext(); }

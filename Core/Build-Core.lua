@@ -19,12 +19,14 @@ project "smolEngine"
       "%{IncludeDir.SDL}", 
 	  "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.ImGui}", 
+      "%{IncludeDir.GLM}",
       "%{IncludeDir.backends}", 
       "%{IncludeDir.IconFontCppHeaders}",
       "%{IncludeDir.assimp}",
       "%{IncludeDir.Glew}",
-      "%{IncludeDir.GLM}",
-      "%{IncludeDir.DevIL}"
+	  "%{IncludeDir.JSON}",
+	  "%{IncludeDir.STB}",
+	  "%{IncludeDir.GLI}"
    }
 
    links
@@ -34,9 +36,6 @@ project "smolEngine"
       "ImGui",
 	  "opengl32.lib",
 	  "../Vendor/Glew/lib/glew32.lib",
-	  "../Vendor/DevIL/lib/DevIL.lib",
-	  "../Vendor/DevIL/lib/ILU.lib",
-	  "../Vendor/DevIL/lib/ILUT.lib",
 	  "../Vendor/assimp/lib/x64/release/assimp-vc143-mt.lib"
    }
    
@@ -52,7 +51,10 @@ project "smolEngine"
        }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { 
+           "DEBUG" ,
+           "SMOL_ENABLE_ASSERTS"
+       }
        runtime "Debug"
        symbols "On"
 

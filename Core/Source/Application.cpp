@@ -24,6 +24,7 @@ namespace smol {
 
 		m_CoreLayer = std::make_unique<CoreLayer>();
 		m_ImguiLayer = std::make_unique<ImguiLayer>();
+		Renderer::Init();
 
 
 		PushLayer(m_CoreLayer.get());
@@ -61,7 +62,6 @@ namespace smol {
 
 		m_ImguiLayer->Begin();
 		{
-			//TODO: Optick On ImGuiRender call
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
 		}

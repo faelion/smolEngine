@@ -2,6 +2,7 @@
 
 #include "Layer.h"
 #include "Modules/Window.h"
+#include "Modules/Input.h"
 
 namespace smol {
 	class CoreLayer : public Layer
@@ -11,10 +12,12 @@ namespace smol {
 		~CoreLayer();
 
 		inline Window& GetWindow() { return *m_Window; }
+		inline Input& GetInput() { return *m_Input; }
 
 	private:
 		//Modules
 		std::unique_ptr<Window> m_Window;
+		std::unique_ptr<Input> m_Input;
 	};
 
 }

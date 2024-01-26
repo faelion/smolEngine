@@ -13,6 +13,7 @@ project "smolEditor"
       "%{IncludeDir.SDL}", 
 	  "%{IncludeDir.SPDLOG}",
 	  "%{IncludeDir.ImGui}",
+      "%{IncludeDir.GLM}",
       "%{IncludeDir.IconFontCppHeaders}",
 
 	  -- Include Core
@@ -31,7 +32,7 @@ project "smolEditor"
    
    postbuildcommands {"{COPY} \"%{wks.location}/Binaries/" .. OutputDir .. "/%{prj.name}\" \"%{wks.location}Output\""}
 
-   debugdir "$(SolutionDir)/Output"
+   debugdir "%{wks.location}/Output"
 
    filter "system:windows"
        systemversion "latest"

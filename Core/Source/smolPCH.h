@@ -16,6 +16,7 @@
 #include <filesystem>
 
 #include "Log.h"
+#include "Defs.h"
 
 #ifdef SMOL_PLATFORM_WINDOWS
 #include <Windows.h>

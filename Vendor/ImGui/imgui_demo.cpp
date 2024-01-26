@@ -1164,7 +1164,7 @@ static void ShowDemoWindowWidgets()
             ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
             ImVec4 tint_col = use_text_color_for_tint ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
             ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
-            ImGui::Image(my_tex_id, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
+            ImGui::Texture(my_tex_id, ImVec2(my_tex_w, my_tex_h), uv_min, uv_max, tint_col, border_col);
             if (ImGui::BeginItemTooltip())
             {
                 float region_sz = 32.0f;
@@ -1179,7 +1179,7 @@ static void ShowDemoWindowWidgets()
                 ImGui::Text("Max: (%.2f, %.2f)", region_x + region_sz, region_y + region_sz);
                 ImVec2 uv0 = ImVec2((region_x) / my_tex_w, (region_y) / my_tex_h);
                 ImVec2 uv1 = ImVec2((region_x + region_sz) / my_tex_w, (region_y + region_sz) / my_tex_h);
-                ImGui::Image(my_tex_id, ImVec2(region_sz * zoom, region_sz * zoom), uv0, uv1, tint_col, border_col);
+                ImGui::Texture(my_tex_id, ImVec2(region_sz * zoom, region_sz * zoom), uv0, uv1, tint_col, border_col);
                 ImGui::EndTooltip();
             }
         }

@@ -1,7 +1,4 @@
 #pragma once
-
-#include "smolPCH.h"
-
 // General config
 
 #define WINDOW_WIDTH 1280

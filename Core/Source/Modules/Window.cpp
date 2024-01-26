@@ -24,7 +24,7 @@ namespace smol {
 		SMOL_CORE_INFO("Creating window {0} {1} {2}", WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		if (SDL_Init(SDL_INIT_VIDEO) != 0)
-			SMOL_CORE_ASSERT("Could not initialize SDL!");
+			SMOL_CORE_ASSERT(false, "Could not initialize SDL!")
 		else
 		{
 			// Create window
