@@ -23,10 +23,8 @@ namespace smol {
 
 
 		m_CoreLayer = std::make_unique<CoreLayer>();
-		m_ImguiLayer = std::make_unique<ImguiLayer>();
-
-
 		PushLayer(m_CoreLayer.get());
+		m_ImguiLayer = std::make_unique<ImguiLayer>();
 		PushLayer(m_ImguiLayer.get());
 
 

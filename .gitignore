@@ -24,3 +24,5 @@ Makefile
 /Vendor/Binaries/windows-x86_64/Debug/ImGui
 /Vendor/Binaries/windows-x86_64/Debug/SDL2
 /Vendor/Binaries/windows-x86_64/Debug/SDL2main
+/Output/smolEditor.exe
+/Output/smolEngine.lib

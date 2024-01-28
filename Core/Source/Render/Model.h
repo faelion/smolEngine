@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include <vector>
+#include <Render/VertexArray.h>
 #include <Utils/math/Math.h>
 #include <Utils/math/AABB.h>
 #include <Utils/filesystem/FileSystem.h>
@@ -60,6 +61,10 @@ namespace smol {
 
 		void generateBuffers();
 	private:
+		VertexArray meshVAO;
+		VertexArray BoundingBoxVAO;
+
+		//TODO: remove next variables
 		unsigned int vao, vbo, ebo, bbvao, bbvbo, bbebo;
 
 		void getMeshFromFile(const char* file, ModelSettings* settings, bool gen_buffers=true);
