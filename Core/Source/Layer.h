@@ -18,8 +18,11 @@ namespace smol {
 		void OnUpdate();
 		void OnEvent(SDL_Event& e);
 		void OnImGuiRender();
-		void CleanUp();
 		inline const std::string& GetName() const { return m_DebugName; }
+
+		virtual void Start() {}
+		virtual void Update() {}
+		virtual void CleanUp() {}
 
 	protected:
 		std::string m_DebugName;

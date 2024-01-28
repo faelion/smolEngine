@@ -1,6 +1,7 @@
 #pragma once
-// General config
+#include <stdio.h>
 
+// General config
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define FPS 60
@@ -97,6 +98,8 @@ inline const char* const PATH(const char* folder, const char* file)
 #define PI_F 3.14159265359f
 
 #define SMOL_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+#include "Log.h"
 
 
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
 #include "glm/glm.hpp"
 
 namespace smol {
@@ -50,7 +49,7 @@ namespace smol {
 		bool m_IsLoaded = false;
 		uint32_t m_Width, m_Height;
 		uint32_t m_TextureID;
-		GLenum m_InternalFormat, m_DataFormat;
+		unsigned int m_InternalFormat, m_DataFormat;
 		glm::ivec2 m_ImageSize;
 	};
 

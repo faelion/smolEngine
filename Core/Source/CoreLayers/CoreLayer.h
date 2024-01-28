@@ -11,6 +11,10 @@ namespace smol {
 		CoreLayer();
 		~CoreLayer();
 
+		void Start() override { SMOL_CORE_TRACE("Core Layer Started"); }
+		void Update() override {}
+		void CleanUp() override { SMOL_CORE_TRACE("Core Layer Cleaned Up"); }
+
 		inline Window& GetWindow() { return *m_Window; }
 		inline Input& GetInput() { return *m_Input; }
 

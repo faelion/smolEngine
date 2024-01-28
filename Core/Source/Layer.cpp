@@ -15,6 +15,7 @@ namespace smol
 
 	void Layer::OnAttach()
 	{
+		Start();
 		for (auto const& m : m_modules)
 		{
 			if (!m->m_active) continue;
@@ -39,6 +40,7 @@ namespace smol
 
 	void Layer::OnUpdate()
 	{
+		Update();
 		for (auto const& m : m_modules)
 		{
 			if (!m->m_active) continue;
@@ -62,13 +64,6 @@ namespace smol
 		{
 			if (!m->m_active) continue;
 			m->OnRenderUI();
-		}
-	}
-	void Layer::CleanUp()
-	{
-		for (auto const& m : m_modules)
-		{
-			m->CleanUp();
 		}
 	}
 }
