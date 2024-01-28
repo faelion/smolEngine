@@ -24,11 +24,13 @@ namespace smol {
 
 		m_CoreLayer = std::make_unique<CoreLayer>();
 		m_ImguiLayer = std::make_unique<ImguiLayer>();
-		Renderer::Init();
 
 
 		PushLayer(m_CoreLayer.get());
 		PushLayer(m_ImguiLayer.get());
+
+
+		Renderer::Init();
 	}
 
 	App::~App() = default;
