@@ -12,9 +12,9 @@ namespace smol {
 		ImguiLayer();
 		~ImguiLayer();
 
-		void Start() override { SMOL_CORE_TRACE("ImGui Layer Started"); }
+		void Start() override;
 		void Update() override {}
-		void CleanUp() override { SMOL_CORE_TRACE("ImGui Layer Cleaned Up"); }
+		void CleanUp() override;
 
 		void Begin();
 		void End();

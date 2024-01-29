@@ -3,6 +3,7 @@
 EditorLayer::EditorLayer()
 	: Layer("EditorLayer")
 {
+	m_Viewport = std::make_unique<Viewport>(true);
 }
 
 EditorLayer::~EditorLayer()
@@ -12,6 +13,10 @@ EditorLayer::~EditorLayer()
 void EditorLayer::Start()
 {
 	SMOL_CORE_TRACE("Editor Layer Started");
+
+
+	//The order matters
+	AddModule(m_Viewport.get());
 }
 
 void EditorLayer::Update()

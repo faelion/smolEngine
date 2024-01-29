@@ -1,7 +1,9 @@
 #pragma once
 
 #include <smol.h>
-#include <Render/Framebuffer.h>
+
+//Modules
+#include "Modules/Viewport.h"
 
 class EditorLayer : public smol::Layer
 {
@@ -14,5 +16,6 @@ public:
 	void CleanUp() override;
 
 private:
+	std::unique_ptr<Viewport> m_Viewport;
 };
 

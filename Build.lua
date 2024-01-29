@@ -10,9 +10,14 @@ workspace "smol"
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
-group "smolEngine"
+group "Dependencies"
     include "Dependencies.lua"
 group ""
 
+group "Core"
 include "Core/Build-Core.lua"
+group ""
+
+group "Editor"
 include "App/Build-App.lua"
+group ""
