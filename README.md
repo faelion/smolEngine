@@ -1,6 +1,8 @@
-# C++ Project Starter Template
+# Smol Game Engine
 
-This is a little quick-start project template for C++ projects which utilise a Core/App project architecture. There are two included projects - one called _Core_, and one called _App_. [Premake](https://github.com/premake/premake-core) is used to generate project files.
+This smol game engine is a students project with the purpose of investigate and improve my own coding skills. It is based only on OpenGL, SDL2 and the only platforma available to use it is Windows.
+
+This project uses a little quick-start project template for C++ projects which utilise a Core/App project architecture. There are two included projects - one called _Core_, and one called _App_. [Premake](https://github.com/premake/premake-core) is used to generate project files.
 
 Core builds into a static library and is meant to contain common code intended for use in multiple applications. App builds into an executable and links the Core static library, as well as provides an include path to Core's code.
 
