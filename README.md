@@ -6,7 +6,7 @@ This project uses a little quick-start project template for C++ projects which u
 
 Core builds into a static library and is meant to contain common code intended for use in multiple applications. App builds into an executable and links the Core static library, as well as provides an include path to Core's code.
 
-The `Scripts/` directory contains build scripts for Windows and Linux, and the `Vendor/` directory contains Premake binaries (currently version `5.0-beta2`).
+The `Scripts/` directory contains build scripts for Windows, and the `Vendor/` directory contains Premake binaries (currently version `5.0-beta2`).
 
 ## Setup
 1. Clone or download this repository
