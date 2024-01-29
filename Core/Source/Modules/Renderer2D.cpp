@@ -54,6 +54,7 @@ namespace smol {
 		std::shared_ptr<VertexArray> QuadVertexArray;
 		std::shared_ptr<VertexBuffer> QuadVertexBuffer;
 		std::shared_ptr<Shader> QuadShader;
+		std::shared_ptr<Texture2D> WhiteTexture;
 
 		std::shared_ptr<VertexArray> CircleVertexArray;
 		std::shared_ptr<VertexBuffer> CircleVertexBuffer;
@@ -159,13 +160,20 @@ namespace smol {
 		s_Data.LineVertexArray->AddVertexBuffer(s_Data.LineVertexBuffer);
 		s_Data.LineVertexBufferBase = new LineVertex[s_Data.MaxVertices];
 
+		s_Data.WhiteTexture = std::make_shared<Texture2D>();
+		uint32_t whiteTextureData = 0xffffffff;
+		s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+
 		int32_t samplers[s_Data.MaxTextureSlots];
 		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
 			samplers[i] = i;
 
-		s_Data.QuadShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Quad.glsl");
-		s_Data.CircleShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Circle.glsl");
-		s_Data.LineShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Line.glsl");
+		s_Data.QuadShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Quad");
+		s_Data.CircleShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Circle");
+		s_Data.LineShader = std::make_shared<Shader>("assets/shaders/Renderer2D_Line");
+
+		// Set first texture slot to 0
+		s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
 		s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
 		s_Data.QuadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };

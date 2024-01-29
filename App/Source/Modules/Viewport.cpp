@@ -19,11 +19,18 @@ void Viewport::Update()
 
 	smol::OpenGLInstance::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	m_FrameBuffer->Clear();
-
-
 	m_EditorCamera.OnUpdate();
 
+	//Rendering debugging
+	smol::Renderer2D::BeginScene(m_EditorCamera);
+
+
+
 	smol::Renderer2D::DrawQuad({0.0f, 0.0f}, {1.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
+
+
+
+	smol::Renderer2D::EndScene();
 
 	m_FrameBuffer->Unbind();
 }
