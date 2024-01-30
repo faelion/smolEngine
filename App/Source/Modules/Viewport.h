@@ -18,7 +18,9 @@ public:
 	virtual ~Viewport();
 
 	void Init() override;
+	void OnEvent(SDL_Event& e) override;
 	void Update() override;
+	void OnRenderUI() override;
 	void CleanUp() override;
 
 private:

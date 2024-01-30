@@ -21,6 +21,8 @@ namespace smol {
 		void BeginUI();
 		void EndUI();
 
+		void ProcessSDL_Events(SDL_Event& e);
+
 		inline ImGuiContext* GetImguiContext() { return m_Ctx; }
 	private:
 		void SetDarkTheme();

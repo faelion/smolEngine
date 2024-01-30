@@ -63,6 +63,7 @@ namespace smol {
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
+
 			OnEvent(e);
 		}
 

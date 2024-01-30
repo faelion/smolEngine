@@ -34,6 +34,7 @@ namespace smol {
 		inline static ImGuiLog& GetLog() { return s_Log; }
 		inline ImGuiLog& GetConsole() { return m_Console; }
 		inline ImGuiContext* GetContext() { return m_ImguiEnabler->GetImguiContext(); }
+		inline ImguiEnabler* GetEnabler() { return m_ImguiEnabler.get(); }
 	private:
 		inline static ImGuiLog s_Log;
 	private:
