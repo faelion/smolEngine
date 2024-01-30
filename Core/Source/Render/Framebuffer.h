@@ -24,6 +24,7 @@ namespace smol {
 		void Resize(uint32_t width, uint32_t height);
 
 		void Clear();
+		void ClearBuffer(int value);
 
 
 		inline int getWidth() { return m_Width; }

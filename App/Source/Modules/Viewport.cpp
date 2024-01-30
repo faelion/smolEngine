@@ -23,18 +23,24 @@ void Viewport::Update()
 
 
 
+	smol::Renderer2D::ResetStats();
 	m_FrameBuffer->Bind();
 	smol::OpenGLInstance::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	m_FrameBuffer->Clear();
 
+
+	m_FrameBuffer->ClearBuffer(-1);
+
 	m_EditorCamera.OnUpdate();
+
 
 	//Rendering debugging
 	smol::Renderer2D::BeginScene(m_EditorCamera);
 
 
 
-	smol::Renderer2D::DrawRect({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}, { 1.0f, 1.0f, 1.0f, 1.0f});
+	smol::Renderer2D::DrawRect(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(10.0f, 10.0f), glm::vec4(0, 1, 0, 1));
+	smol::Renderer2D::DrawLine({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 
 
 
@@ -65,6 +71,8 @@ void Viewport::OnRenderUI()
 		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
@@ -73,6 +81,18 @@ void Viewport::OnRenderUI()
 	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+	// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
+	// all active windows docked into it will lose their parent and become undocked.
+	// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
+	// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+	ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
 
 	// DockSpace
 	ImGuiIO& io = ImGui::GetIO();
@@ -85,7 +105,28 @@ void Viewport::OnRenderUI()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
+	style.WindowMinSize.x = minWinSizeX;
+	ImGui::End();
 
+	ImGui::Begin("Stats");
+
+#if 0
+	std::string name = "None";
+	if (m_HoveredEntity)
+		name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+	ImGui::Text("Hovered Entity: %s", name.c_str());
+#endif
+
+	auto stats = smol::Renderer2D::GetStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+	ImGui::Text("Quads: %d", stats.QuadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+	ImGui::End();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	ImGui::Begin("Viewport");
 	auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 	auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
@@ -106,6 +147,7 @@ void Viewport::OnRenderUI()
 
 	
 	ImGui::End();
+	ImGui::PopStyleVar();
 }
 
 void Viewport::CleanUp()

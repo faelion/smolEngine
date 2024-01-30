@@ -110,7 +110,14 @@ namespace smol {
 	void FrameBuffer::Clear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void FrameBuffer::ClearBuffer(int value)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+		glClearTexImage(m_ColorBufferTexture, 0, GL_RGBA8, GL_INT, &value);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
