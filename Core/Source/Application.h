@@ -57,8 +57,8 @@ namespace smol
 		void CleanUp();
 
 		LayerStack m_LayerStack;
-		std::unique_ptr<ImguiLayer> m_ImguiLayer;
-		std::unique_ptr<CoreLayer> m_CoreLayer;
+		ImguiLayer* m_ImguiLayer;
+		CoreLayer* m_CoreLayer;
 
 		Timer::steady_clock::time_point m_frameStart;
 		Timer::steady_clock::time_point m_frameEnd;

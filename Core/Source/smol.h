@@ -14,6 +14,7 @@
 // ---Renderer------------------------
 #include "Modules/Renderer.h"
 #include "Modules/Renderer2D.h"
+#include "Render/OpenGLInstance.h"
 
 #include "Render/Buffer.h"
 #include "Render/Shader.h"

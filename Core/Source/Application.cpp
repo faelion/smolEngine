@@ -22,16 +22,25 @@ namespace smol {
 		s_Instance = this;
 
 
-		m_CoreLayer = std::make_unique<CoreLayer>();
-		PushLayer(m_CoreLayer.get());
-		m_ImguiLayer = std::make_unique<ImguiLayer>();
-		PushLayer(m_ImguiLayer.get());
+		m_CoreLayer = new CoreLayer();
+		PushLayer(m_CoreLayer);
+		m_ImguiLayer = new ImguiLayer();
+		PushLayer(m_ImguiLayer);
 
 
 		Renderer::Init();
 	}
 
-	App::~App() = default;
+	App::~App()
+	{
+		for (Layer* layer : m_LayerStack)
+		{
+			layer->OnDetach();
+		}
+
+		RELEASE(m_CoreLayer);
+		RELEASE(m_ImguiLayer);
+	}
 
 	void App::Run()
 	{
@@ -54,6 +63,7 @@ namespace smol {
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
+
 			OnEvent(e);
 		}
 

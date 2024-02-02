@@ -92,7 +92,8 @@ namespace smol {
 		delete fragmentShaderSourceStr;
 		delete geometryShaderSourceStr;
 
-		if (retflag) return;
+		if (retflag) 
+			return;
 
 
 		m_AllOk = true;
@@ -291,7 +292,8 @@ namespace smol {
 
 		shaderFile.open(file, std::ios::in);
 
-		if (!shaderFile.is_open()) return NULL;
+		if (!shaderFile.is_open()) 
+			return NULL;
 
 		std::stringstream buffer;
 

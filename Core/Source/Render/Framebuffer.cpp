@@ -73,7 +73,7 @@ namespace smol {
 			glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
 			glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
 
-			glTexStorage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Width, m_Height);
+			glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_Width, m_Height);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -110,9 +110,14 @@ namespace smol {
 	void FrameBuffer::Clear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void FrameBuffer::ClearBuffer(int value)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+		glClearTexImage(m_ColorBufferTexture, 0, GL_RGBA8, GL_INT, &value);
 	}
 
 }

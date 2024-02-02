@@ -12,9 +12,9 @@ namespace smol {
 		ImguiLayer();
 		~ImguiLayer();
 
-		void Start() override { SMOL_CORE_TRACE("ImGui Layer Started"); }
+		void Start() override;
 		void Update() override {}
-		void CleanUp() override { SMOL_CORE_TRACE("ImGui Layer Cleaned Up"); }
+		void CleanUp() override;
 
 		void Begin();
 		void End();
@@ -34,6 +34,7 @@ namespace smol {
 		inline static ImGuiLog& GetLog() { return s_Log; }
 		inline ImGuiLog& GetConsole() { return m_Console; }
 		inline ImGuiContext* GetContext() { return m_ImguiEnabler->GetImguiContext(); }
+		inline ImguiEnabler* GetEnabler() { return m_ImguiEnabler.get(); }
 	private:
 		inline static ImGuiLog s_Log;
 	private:

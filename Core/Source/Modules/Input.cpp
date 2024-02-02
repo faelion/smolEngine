@@ -15,7 +15,6 @@ namespace smol {
 	// Destructor
 	Input::~Input()
 	{
-		RELEASE(keyboard);
 	}
 
 	// Called before render is available
@@ -92,5 +91,6 @@ namespace smol {
 	{
 		SMOL_CORE_INFO("Quitting SDL input event subsystem");
 		SDL_QuitSubSystem(SDL_INIT_EVENTS);
+		RELEASE(keyboard);
 	}
 }

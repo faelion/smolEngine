@@ -16,6 +16,7 @@ namespace smol {
 	class Texture2D
 	{
 	public:
+		Texture2D();
 		Texture2D(const std::string& path, bool compressed = false);
 		~Texture2D();
 

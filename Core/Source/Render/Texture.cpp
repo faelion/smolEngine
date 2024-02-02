@@ -7,8 +7,21 @@
 #include "gli.hpp"
 
 namespace smol {
+    Texture2D::Texture2D() : m_InternalFormat(GL_RGBA8), m_DataFormat(GL_RGBA), m_Width(1), m_Height(1)
+    {
+        //Blank texture
 
-	Texture2D::Texture2D(const std::string& path, bool compressed)
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
+        glTextureStorage2D(m_TextureID, 1, m_InternalFormat, m_Width, m_Height);
+
+        glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
+    Texture2D::Texture2D(const std::string& path, bool compressed)
 		: m_Path(path)
 	{
 		if (compressed)
