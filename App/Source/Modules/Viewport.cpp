@@ -19,6 +19,7 @@ void Viewport::Update()
 		(m_FrameBuffer->getWidth() != m_ViewportSize.x || m_FrameBuffer->getHeight() != m_ViewportSize.y))
 	{
 		m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 	}
 
 
@@ -39,7 +40,7 @@ void Viewport::Update()
 
 
 
-	smol::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(10.0f, 10.0f), glm::vec4(0, 0, 1, 1));
+	smol::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0, 0, 1, 1));
 	smol::Renderer2D::DrawLine({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 
 
