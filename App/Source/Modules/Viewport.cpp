@@ -53,6 +53,7 @@ void Viewport::Update()
 void Viewport::OnEvent(SDL_Event& e)
 {
 	smol::App::Get().GetImguiLayer().GetEnabler()->ProcessSDL_Events(e);
+	m_EditorCamera.OnEvent(e);
 }
 
 void Viewport::OnRenderUI()

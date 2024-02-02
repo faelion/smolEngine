@@ -84,7 +84,7 @@ namespace smol {
 
 	bool EditorCamera::OnMouseScroll(SDL_Event& e)
 	{
-		float delta = e.wheel.y * 0.1f;
+		float delta = e.wheel.y * 0.15f;
 		MouseZoom(delta);
 		UpdateView();
 		return false;
