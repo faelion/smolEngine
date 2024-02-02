@@ -28,8 +28,8 @@ void Viewport::Update()
 	smol::OpenGLInstance::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	m_FrameBuffer->Clear();
 
-
 	m_FrameBuffer->ClearBuffer(-1);
+
 
 	m_EditorCamera.OnUpdate();
 
@@ -39,7 +39,7 @@ void Viewport::Update()
 
 
 
-	smol::Renderer2D::DrawRect(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(10.0f, 10.0f), glm::vec4(0, 1, 0, 1));
+	smol::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(10.0f, 10.0f), glm::vec4(0, 0, 1, 1));
 	smol::Renderer2D::DrawLine({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 
 
@@ -142,8 +142,7 @@ void Viewport::OnRenderUI()
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-	uint64_t textureID = m_FrameBuffer->getColorBufferTexture();
-	ImGui::Texture(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Texture((ImTextureID)m_FrameBuffer->getColorBufferTexture(), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 	
 	ImGui::End();

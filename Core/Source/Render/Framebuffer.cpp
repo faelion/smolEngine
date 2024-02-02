@@ -118,7 +118,6 @@ namespace smol {
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 		glClearTexImage(m_ColorBufferTexture, 0, GL_RGBA8, GL_INT, &value);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 }

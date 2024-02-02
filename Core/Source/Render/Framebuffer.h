@@ -5,9 +5,9 @@ namespace smol {
 
 	class FrameBuffer {
 	private:
-		uint32_t m_FBO;
+		uint32_t m_FBO = 0;
 		uint32_t m_ColorBufferTexture;
-		uint32_t m_DepthAttachment;
+		uint32_t m_DepthAttachment = 0;
 		uint32_t m_Width, m_Height;
 
 		bool m_DepthActive;
