@@ -14,13 +14,13 @@ namespace smol {
 	struct ModelSettings;
 
 	struct ModelHierarchy {
-		std::string name;
+		std::string m_Name;
 
 		// Index in model list
-		std::vector<unsigned int> meshIndexes;
+		std::vector<unsigned int> m_MeshIndexes;
 
 		// Model children
-		std::vector<ModelHierarchy*> children;
+		std::vector<ModelHierarchy*> m_Children;
 
 		// Transformation
 		glm::vec3 translation;
@@ -28,14 +28,14 @@ namespace smol {
 		glm::vec3 scale;
 
 		~ModelHierarchy() {
-			size_t len = children.size();
+			size_t len = m_Children.size();
 
 			for (size_t i = 0; i < len; i++) {
-				delete children[i];
+				delete m_Children[i];
 			}
 
-			children.clear();
-			meshIndexes.clear();
+			m_Children.clear();
+			m_MeshIndexes.clear();
 		}
 	};
 
@@ -46,26 +46,26 @@ namespace smol {
 	protected:
 		bool is_root = false;
 
-		std::string model_name;
-		unsigned int model_mat;
+		std::string m_ModelName;
+		unsigned int m_ModelMat;
 
-		std::vector<float> vbo_data;
-		std::vector<int> ebo_data;
-		std::vector<int> bbebo_data;
-		std::vector<float> bbvbo_data;
+		std::vector<float> m_MeshVBO_data;
+		std::vector<uint32_t> m_MeshIBO_data;
+		std::vector<float> m_BoundingBoxVBO_data;
+		std::vector<uint32_t> m_BoundingBoxIBO_data;
 
-		std::vector<Model*> models;
-		std::vector<std::string> materials;
+		std::vector<Model*> m_ChildModels;
+		std::vector<std::string> m_Materials;
 
-		ModelHierarchy* model_hierarchy;
+		ModelHierarchy* m_ModelHierarchy;
 
 		void generateBuffers();
 	private:
-		VertexArray meshVAO;
-		VertexArray BoundingBoxVAO;
+		std::shared_ptr<VertexBuffer> m_MeshVBO;
+		std::shared_ptr<VertexBuffer> m_BoundingBoxVBO;
 
-		//TODO: remove next variables
-		unsigned int vao, vbo, ebo, bbvao, bbvbo, bbebo;
+		std::shared_ptr<VertexArray> m_MeshVAO;
+		std::shared_ptr<VertexArray> m_BoundingBoxVAO;
 
 		void getMeshFromFile(const char* file, ModelSettings* settings, bool gen_buffers=true);
 		void getSmolMeshFromFile(const char* file);
@@ -88,22 +88,22 @@ namespace smol {
 
 		void DrawBoudingBox();
 
-		unsigned int getVAO() { return vao; }
+		VertexArray* getVAO() { return m_MeshVAO.get(); }
 
 		const char* getModelPath() { return m_ModelPath.c_str(); }
 
 		bool IsRoot() const { return is_root; }
 
-		Model* getModelAt(size_t index) { return models[index]; }
+		Model* getModelAt(size_t index) { return m_ChildModels[index]; }
 
-		std::string getMaterialAt(size_t index) { return materials[index]; }
+		std::string getMaterialAt(size_t index) { return m_Materials[index]; }
 
-		size_t getMaterialCount() { return materials.size(); }
+		size_t getMaterialCount() { return m_Materials.size(); }
 
-		unsigned int getMaterialIndex() { return model_mat; }
+		unsigned int getMaterialIndex() { return m_ModelMat; }
 
-		const ModelHierarchy* getModelHierarchy() { return model_hierarchy; }
-		std::string getModelName() { return model_name; }
+		const ModelHierarchy* getModelHierarchy() { return m_ModelHierarchy; }
+		std::string getModelName() { return m_ModelName; }
 
 		void LoadMesh(const char* file, ModelSettings* settings);
 		void LoadSmolMesh(const char* file);
@@ -113,7 +113,7 @@ namespace smol {
 		static Model* GetModelFromFile(const char* file, ModelSettings* settings);
 		static void SaveModel(Model* model, const char* file);
 	public:
-		bool showNormals = false;
-		Math::AABB boundingBox;
+		bool m_ShowNormals = false;
+		Math::AABB m_BoundingBox;
 	};
 }

@@ -113,10 +113,10 @@ void Viewport::OnRenderUI()
 	ImGui::Begin("Stats");
 
 #if 0
-	std::string name = "None";
+	std::string m_Name = "None";
 	if (m_HoveredEntity)
-		name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
-	ImGui::Text("Hovered Entity: %s", name.c_str());
+		m_Name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+	ImGui::Text("Hovered Entity: %s", m_Name.c_str());
 #endif
 
 	auto stats = smol::Renderer2D::GetStats();

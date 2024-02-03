@@ -42,13 +42,13 @@ namespace smol {
 		
 		is_root = true;
 
-		model_hierarchy = loadModelHierarchy(scene->mRootNode);
+		m_ModelHierarchy = loadModelHierarchy(scene->mRootNode);
 		std::filesystem::path p = file;
-		model_hierarchy->name = p.stem().string();
+		m_ModelHierarchy->m_Name = p.stem().string();
 
 		m_ModelPath = file;
 
-		model_name = scene->mRootNode->mName.C_Str();
+		m_ModelName = scene->mRootNode->mName.C_Str();
 
 		std::filesystem::path path = file;
 		path.remove_filename();
@@ -115,7 +115,7 @@ namespace smol {
 
 					Material::SaveMaterial(mat_path.string().c_str(), &material);
 				}
-				materials.push_back(mat_path.string());
+				m_Materials.push_back(mat_path.string());
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace smol {
 					model->generateBuffers();
 				}
 
-				models.push_back(model);
+				m_ChildModels.push_back(model);
 			}
 		}
 
@@ -150,22 +150,22 @@ namespace smol {
 			// Model size
 			f.Read(&model_size, sizeof(size_t));
 
-			models.reserve(model_size);
+			m_ChildModels.reserve(model_size);
 
 			// Material size
 			size_t mat_size;
 
 			f.Read(&mat_size, sizeof(size_t));
 
-			materials.resize(mat_size);
+			m_Materials.resize(mat_size);
 
 			for (size_t i = 0; i < mat_size; i++) {
 				size_t name_size;
 
 				f.Read(&name_size, sizeof(size_t));
-				materials[i].resize(name_size);
+				m_Materials[i].resize(name_size);
 
-				f.Read(&materials[i][0], name_size);
+				f.Read(&m_Materials[i][0], name_size);
 			}
 
 			// Children models
@@ -173,25 +173,25 @@ namespace smol {
 				Model* model = new Model(NULL);
 
 				// Read material index
-				f.Read(&model->model_mat, sizeof(size_t));
+				f.Read(&model->m_ModelMat, sizeof(size_t));
 
 				// Read vbo
 				size_t vbo_size;
 				f.Read(&vbo_size, sizeof(size_t));
-				model->vbo_data.resize(vbo_size);
-				f.Read(&model->vbo_data[0], vbo_size * sizeof(float));
+				model->m_MeshVBO_data.resize(vbo_size);
+				f.Read(&model->m_MeshVBO_data[0], vbo_size * sizeof(float));
 
 				// Read ebo
 				size_t ebo_size;
 				f.Read(&ebo_size, sizeof(size_t));
-				model->ebo_data.resize(ebo_size);
-				f.Read(&model->ebo_data[0], ebo_size * sizeof(int));
+				model->m_MeshIBO_data.resize(ebo_size);
+				f.Read(&model->m_MeshIBO_data[0], ebo_size * sizeof(int));
 
 				model->generateBuffers();
-				models.push_back(model);
+				m_ChildModels.push_back(model);
 			}
 
-			model_hierarchy = LoadModelHierarchy(f);
+			m_ModelHierarchy = LoadModelHierarchy(f);
 		}
 
 		f.Close();
@@ -201,30 +201,30 @@ namespace smol {
 	{
 		Model* model = new Model(NULL);
 
-		model->model_mat = mesh->mMaterialIndex;
+		model->m_ModelMat = mesh->mMaterialIndex;
 
-		model->model_name = mesh->mName.C_Str();
+		model->m_ModelName = mesh->mName.C_Str();
 		for (unsigned int j = 0; j < mesh->mNumVertices; j++) {
 			// Vertices
-			model->vbo_data.push_back(mesh->mVertices[j].x);
-			model->vbo_data.push_back(mesh->mVertices[j].y);
-			model->vbo_data.push_back(mesh->mVertices[j].z);
+			model->m_MeshVBO_data.push_back(mesh->mVertices[j].x);
+			model->m_MeshVBO_data.push_back(mesh->mVertices[j].y);
+			model->m_MeshVBO_data.push_back(mesh->mVertices[j].z);
 			// Normals
-			model->vbo_data.push_back(mesh->mNormals[j].x);
-			model->vbo_data.push_back(mesh->mNormals[j].y);
-			model->vbo_data.push_back(mesh->mNormals[j].z);
+			model->m_MeshVBO_data.push_back(mesh->mNormals[j].x);
+			model->m_MeshVBO_data.push_back(mesh->mNormals[j].y);
+			model->m_MeshVBO_data.push_back(mesh->mNormals[j].z);
 			// Texture coordinates
 			if (mesh->mTextureCoords[0])
 			{
-				model->vbo_data.push_back(mesh->mTextureCoords[0][j].x);
-				model->vbo_data.push_back(mesh->mTextureCoords[0][j].y);
+				model->m_MeshVBO_data.push_back(mesh->mTextureCoords[0][j].x);
+				model->m_MeshVBO_data.push_back(mesh->mTextureCoords[0][j].y);
 			}
 			else {
-				model->vbo_data.push_back(0.0f);
-				model->vbo_data.push_back(0.0f);
+				model->m_MeshVBO_data.push_back(0.0f);
+				model->m_MeshVBO_data.push_back(0.0f);
 			}
 		}
-		if (model->vbo_data.empty())
+		if (model->m_MeshVBO_data.empty())
 		{
 			SMOL_CORE_ERROR("Error while loading mesh vertex buffer");
 		}
@@ -236,10 +236,10 @@ namespace smol {
 		for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
 			aiFace& face = mesh->mFaces[j];
 			for (unsigned int k = 0; k < face.mNumIndices; k++) {
-				model->ebo_data.push_back(face.mIndices[k]);
+				model->m_MeshIBO_data.push_back(face.mIndices[k]);
 			}
 		}
-		if (model->ebo_data.empty())
+		if (model->m_MeshIBO_data.empty())
 		{
 			SMOL_CORE_ERROR("Error while loading mesh index buffer");
 		}
@@ -255,7 +255,7 @@ namespace smol {
 	{
 		ModelHierarchy* h = new ModelHierarchy();
 
-		h->name = node->mName.C_Str();
+		h->m_Name = node->mName.C_Str();
 
 		
 		// Node transform
@@ -269,12 +269,12 @@ namespace smol {
 
 		// Node meshes
 		for (size_t i = 0; i < node->mNumMeshes; i++) {
-			h->meshIndexes.push_back(node->mMeshes[i]);
+			h->m_MeshIndexes.push_back(node->mMeshes[i]);
 		}
 
 		// Node children
 		for (size_t i = 0; i < node->mNumChildren; i++) {
-			h->children.push_back(loadModelHierarchy(node->mChildren[i]));
+			h->m_Children.push_back(loadModelHierarchy(node->mChildren[i]));
 		}
 
 		return h;
@@ -282,7 +282,7 @@ namespace smol {
 
 	void Model::CreateCube()
 	{
-		vbo_data = {
+		m_MeshVBO_data = {
 			1,1,1, 0,0,1, 0.625,0.5,
 			-1,1,1, 0,0,1, 0.875,0.5,
 			-1,-1,1, 0,0,1, 0.875,0.25,
@@ -309,7 +309,7 @@ namespace smol {
 			1,1,-1, 0,1,0, 0.375,0.5
 		};
 
-		ebo_data = {
+		m_MeshIBO_data = {
 			0,1,2,0,2,3,
 			4,5,6,4,6,7,
 			8,9,10,8,10,11,
@@ -323,7 +323,7 @@ namespace smol {
 
 	void Model::CreatePlane()
 	{
-		vbo_data = {
+		m_MeshVBO_data = {
 			-0.50,-0.50,0.00,0.00,0.00,1.00,0.00,1.00
 			,0.50,-0.50,0.00,0.00,0.00,1.00,1.00,1.00,
 			0.50,0.50,0.00,0.00,0.00,1.00,1.00,0.00,
@@ -334,7 +334,7 @@ namespace smol {
 			0.00,-0.50,0.50,0.00,0.00,0.00,1.00,0.00,0.00
 		};
 
-		ebo_data = {
+		m_MeshIBO_data = {
 			0,1,2,0,2,3
 		};
 
@@ -344,11 +344,11 @@ namespace smol {
 
 	void Model::CreatePyramid()
 	{
-		vbo_data = {
+		m_MeshVBO_data = {
 			0.00f,1.00f,-1.00f,0.67f,0.67f,0.33f,0.25f,0.51f,0.00f,0.00f,1.00f,0.67,0.67,0.33,0.25,0.75,1.00,-0.00,-1.00,0.67,0.67,0.33,0.49,0.75,1.00,-0.00,-1.00,0.67,-0.67,0.33,0.49,0.75,0.00,0.00,1.00,0.67,-0.67,0.33,0.25,0.75,-0.00,-1.00,-1.00,0.67,-0.67,0.33,0.25,0.99,0.00,1.00,-1.00,0.00,0.00,-1.00,0.75,0.51,1.00,-0.00,-1.00,0.00,0.00,-1.00,0.99,0.75,-0.00,-1.00,-1.00,0.00,0.00,-1.00,0.75,0.99,-1.00,0.00,-1.00,0.00,0.00,-1.00,0.51,0.75,-0.00,-1.00,-1.00,-0.67,-0.67,0.33,0.25,0.99,0.00,0.00,1.00,-0.67,-0.67,0.33,0.25,0.75,-1.00,0.00,-1.00,-0.67,-0.67,0.33,0.01,0.75,-1.00,0.00,-1.00,-0.67,0.67,0.33,0.01,0.75,0.00,0.00,1.00,-0.67,0.67,0.33,0.25,0.75,0.00,1.00,-1.00,-0.67,0.67,0.33,0.25,0.51
 		};
 
-		ebo_data = {
+		m_MeshIBO_data = {
 			0,1,2,3,4,5,6,7,8,6,8,9,10,11,12,13,14,15
 		};
 		is_root = false;
@@ -379,9 +379,9 @@ namespace smol {
 
 				x = xy * cosf(sectorAngle);
 				y = xy * sinf(sectorAngle);
-				vbo_data.push_back(x);
-				vbo_data.push_back(y);
-				vbo_data.push_back(z);
+				m_MeshVBO_data.push_back(x);
+				m_MeshVBO_data.push_back(y);
+				m_MeshVBO_data.push_back(z);
 			}
 		}
 
@@ -396,16 +396,16 @@ namespace smol {
 			{
 				if (i != 0)
 				{
-					ebo_data.push_back(k1);
-					ebo_data.push_back(k2);
-					ebo_data.push_back(k1 + 1);
+					m_MeshIBO_data.push_back(k1);
+					m_MeshIBO_data.push_back(k2);
+					m_MeshIBO_data.push_back(k1 + 1);
 				}
 
 				if (i != (stack_count - 1))
 				{
-					ebo_data.push_back(k1 + 1);
-					ebo_data.push_back(k2);
-					ebo_data.push_back(k2 + 1);
+					m_MeshIBO_data.push_back(k1 + 1);
+					m_MeshIBO_data.push_back(k2);
+					m_MeshIBO_data.push_back(k2 + 1);
 				}
 			}
 		}
@@ -416,30 +416,30 @@ namespace smol {
 
 	void Model::SaveModelHierarchy(File file, ModelHierarchy* h)
 	{
-		size_t name_len = h->name.size();
+		size_t name_len = h->m_Name.size();
 
 		file.Write(&name_len, sizeof(size_t));
-		file.Write(h->name.c_str(), name_len);
+		file.Write(h->m_Name.c_str(), name_len);
 
 		file.Write(&h->translation, sizeof(glm::vec3));
 		file.Write(&h->rotation, sizeof(glm::vec3));
 		file.Write(&h->scale, sizeof(glm::vec3));
 
-		size_t mesh_ind_size = h->meshIndexes.size();
+		size_t mesh_ind_size = h->m_MeshIndexes.size();
 
 		file.Write(&mesh_ind_size, sizeof(size_t));
 
 		if (mesh_ind_size > 0) {
-			file.Write(h->meshIndexes.data(), mesh_ind_size);
+			file.Write(h->m_MeshIndexes.data(), mesh_ind_size);
 		}
 
-		size_t child_size = h->children.size();
+		size_t child_size = h->m_Children.size();
 
 		file.Write(&child_size, sizeof(size_t));
 
 		if (child_size > 0) {
 			for (size_t i = 0; i < child_size; i++) {
-				SaveModelHierarchy(file, h->children[i]);
+				SaveModelHierarchy(file, h->m_Children[i]);
 			}
 		}
 	}
@@ -451,8 +451,8 @@ namespace smol {
 		size_t name_len;
 
 		file.Read(&name_len, sizeof(size_t));
-		h->name.resize(name_len);
-		file.Read(&h->name[0], name_len);
+		h->m_Name.resize(name_len);
+		file.Read(&h->m_Name[0], name_len);
 
 		file.Read(&h->translation, sizeof(glm::vec3));
 		file.Read(&h->rotation, sizeof(glm::vec3));
@@ -463,8 +463,8 @@ namespace smol {
 		file.Read(&mesh_ind_size, sizeof(size_t));
 
 		if (mesh_ind_size > 0) {
-			h->meshIndexes.resize(mesh_ind_size);
-			file.Read(&h->meshIndexes[0], mesh_ind_size);
+			h->m_MeshIndexes.resize(mesh_ind_size);
+			file.Read(&h->m_MeshIndexes[0], mesh_ind_size);
 		}
 
 		size_t child_size;
@@ -472,10 +472,10 @@ namespace smol {
 		file.Read(&child_size, sizeof(size_t));
 
 		if (child_size > 0) {
-			h->children.reserve(child_size);
+			h->m_Children.reserve(child_size);
 
 			for (size_t i = 0; i < child_size; i++) {
-				h->children.push_back(LoadModelHierarchy(file));
+				h->m_Children.push_back(LoadModelHierarchy(file));
 			}
 		}
 
@@ -485,59 +485,72 @@ namespace smol {
 	void Model::generateBuffers()
 	{
 		if (is_root) return;
+
+		/////////////////
+		// MESH BUFFERS//
+		/////////////////
+
 		SMOL_CORE_INFO("Generating buffers...");
-		glGenBuffers(1, &vbo);
+		m_MeshVAO = std::make_shared<VertexArray>();
+
+		/*glGenBuffers(1, &vbo);
 		glGenBuffers(1, &ebo);
-		glGenVertexArrays(1, &vao);
-		SMOL_CORE_INFO("Generating buffers DONE");
+		glGenVertexArrays(1, &vao);*/
 		
 		if (glGetError() != 0)
 		{
 			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
 		}
 
-		SMOL_CORE_INFO("Binding the vertex array ...");
-		glBindVertexArray(vao);
-		SMOL_CORE_INFO("Binding the vertex array DONE");
+		SMOL_CORE_INFO("Binding the vertex buffer ...");
+		m_MeshVBO = std::make_shared<VertexBuffer>(m_MeshVBO_data.data(), m_MeshVBO_data.size() * sizeof(float));
+
+		/*glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, vbo_data.size() * sizeof(float), vbo_data.data(), GL_STATIC_DRAW);*/
 
 		if (glGetError() != 0)
 		{
 			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
 		}
 
-		SMOL_CORE_INFO("Binding the vertex buffer ...");
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, vbo_data.size() * sizeof(float), vbo_data.data(), GL_STATIC_DRAW);
+		m_MeshVBO->SetLayout({
+			{ ShaderDataType::Float3, "aPos"           },
+			{ ShaderDataType::Float3, "aColor"         }, // TODO: no se si debería ser vec3 o vec4
+			{ ShaderDataType::Float2, "aTex"           }/*,
+			{ShaderDataType::Int,    "a_EntityID"}*/
+			});
+		m_MeshVAO->AddVertexBuffer(m_MeshVBO);
+
 		SMOL_CORE_INFO("Binding the vertex buffer DONE");
 
-		if (glGetError() != 0)
-		{
-			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
-		}
-
 		SMOL_CORE_INFO("Binding the index buffer ...");
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ebo_data.size() * sizeof(int), ebo_data.data(), GL_STATIC_DRAW);
+		std::shared_ptr<IndexBuffer> meshIB = std::make_shared<IndexBuffer>(m_MeshIBO_data.data(), m_MeshIBO_data.size());
+
+		/*glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ebo_data.size() * sizeof(int), ebo_data.data(), GL_STATIC_DRAW);*/
 
 		if (glGetError() != 0)
 		{
 			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
 		}
 
+		m_MeshVAO->SetIndexBuffer(meshIB);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+		/*glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(2);*/
 
 		if (glGetError() != 0)
 		{
 			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
 		}
 
+		SMOL_CORE_INFO("Generating buffers DONE");
 
+		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
@@ -545,31 +558,49 @@ namespace smol {
 		{
 			SMOL_CORE_ERROR("Check error {0}", glewGetErrorString(glGetError()));
 		}
-		
 
-		for (int i = 0; i < vbo_data.size(); i += 8)
+
+
+		/////////////////////////
+		// BOUNDING BOX BUFFERS//
+		/////////////////////////
+
+		for (int i = 0; i < m_MeshVBO_data.size(); i += 8)
 		{
-			glm::vec3 vec = { vbo_data[i], vbo_data[i + 1], vbo_data[i + 2] };
-			boundingBox.extend(vec);
+			glm::vec3 vec = { m_MeshVBO_data[i], m_MeshVBO_data[i + 1], m_MeshVBO_data[i + 2] };
+			m_BoundingBox.extend(vec);
 		}
-		bbebo_data = {
+		m_BoundingBoxIBO_data = {
 			0, 1, 1, 2, 2, 3, 3, 0, // Front
 			4, 5, 5, 6, 6, 7, 7, 4, // Back
 			0, 4, 1, 5, 2, 6, 3, 7
 		};
-		bbvbo_data = {
-			boundingBox.getMax().x, boundingBox.getMax().y, boundingBox.getMax().z, //TOP
-			boundingBox.getMin().x, boundingBox.getMax().y, boundingBox.getMax().z,
-			boundingBox.getMin().x, boundingBox.getMax().y, boundingBox.getMin().z,
-			boundingBox.getMax().x, boundingBox.getMax().y, boundingBox.getMin().z,
+		m_BoundingBoxVBO_data = {
+			m_BoundingBox.getMax().x, m_BoundingBox.getMax().y, m_BoundingBox.getMax().z, //TOP
+			m_BoundingBox.getMin().x, m_BoundingBox.getMax().y, m_BoundingBox.getMax().z,
+			m_BoundingBox.getMin().x, m_BoundingBox.getMax().y, m_BoundingBox.getMin().z,
+			m_BoundingBox.getMax().x, m_BoundingBox.getMax().y, m_BoundingBox.getMin().z,
 
-			boundingBox.getMax().x, boundingBox.getMin().y, boundingBox.getMax().z, //Bottom
-			boundingBox.getMin().x, boundingBox.getMin().y, boundingBox.getMax().z,
-			boundingBox.getMin().x, boundingBox.getMin().y, boundingBox.getMin().z,
-			boundingBox.getMax().x, boundingBox.getMin().y, boundingBox.getMin().z,
+			m_BoundingBox.getMax().x, m_BoundingBox.getMin().y, m_BoundingBox.getMax().z, //Bottom
+			m_BoundingBox.getMin().x, m_BoundingBox.getMin().y, m_BoundingBox.getMax().z,
+			m_BoundingBox.getMin().x, m_BoundingBox.getMin().y, m_BoundingBox.getMin().z,
+			m_BoundingBox.getMax().x, m_BoundingBox.getMin().y, m_BoundingBox.getMin().z,
 		};
 
-		glGenBuffers(1, &bbvbo);
+
+		m_BoundingBoxVAO = std::make_shared<VertexArray>();
+
+		m_BoundingBoxVBO = std::make_shared<VertexBuffer>(m_BoundingBoxVBO_data.data(), m_BoundingBoxVBO_data.size() * sizeof(float));
+		m_BoundingBoxVBO->SetLayout({
+			{ ShaderDataType::Float3, "aPos"           },/*,
+			{ShaderDataType::Int,    "a_EntityID"}*/
+			});
+		m_BoundingBoxVAO->AddVertexBuffer(m_BoundingBoxVBO);
+
+		std::shared_ptr<IndexBuffer> BBoxIB = std::make_shared<IndexBuffer>(m_BoundingBoxIBO_data.data(), m_BoundingBoxIBO_data.size());
+		m_BoundingBoxVAO->SetIndexBuffer(BBoxIB);
+
+		/*glGenBuffers(1, &bbvbo);
 		glGenBuffers(1, &bbebo);
 		glGenVertexArrays(1, &bbvao);
 
@@ -581,7 +612,7 @@ namespace smol {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bbebo_data.size() * sizeof(int), bbebo_data.data(), GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(0);*/
 
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -591,10 +622,9 @@ namespace smol {
 
 
 	Model::Model(const char* file)
-		: ebo(0), vbo(0), vao(0)
 	{
 		is_root = true;
-		model_hierarchy = NULL;
+		m_ModelHierarchy = NULL;
 
 		if (file) {
 			if (strcmp(file, "cube") == 0)
@@ -626,31 +656,30 @@ namespace smol {
 
 	Model::~Model()
 	{
-		size_t m_size = models.size();
+		size_t m_size = m_ChildModels.size();
 
 		for (size_t i = 0; i < m_size; i++) {
-			delete models[i];
+			delete m_ChildModels[i];
 		}
 
-		if (model_hierarchy) {
-			delete model_hierarchy;
+		if (m_ModelHierarchy) {
+			delete m_ModelHierarchy;
 		}
 	}
 
 	void Model::Render()
 	{
 		if(is_root){
-			size_t meshCount = models.size();
+			size_t meshCount = m_ChildModels.size();
 
 			for (size_t i = 0; i < meshCount; i++) {
-				models[i]->Render();
+				m_ChildModels[i]->Render();
 			}
 		}
 		else {
-
-			glBindVertexArray(vao);
-			glDrawElements(GL_TRIANGLES, (GLsizei)ebo_data.size(), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			m_MeshVAO->Bind();
+			glDrawElements(GL_TRIANGLES, (GLsizei)m_MeshIBO_data.size(), GL_UNSIGNED_INT, 0);
+			m_MeshVAO->Unbind();
 		
 		}
 	}
@@ -658,16 +687,16 @@ namespace smol {
 	void Model::DrawBoudingBox()
 	{
 		if (is_root) {
-			size_t meshCount = models.size();
+			size_t meshCount = m_ChildModels.size();
 
 			for (size_t i = 0; i < meshCount; i++) {
-				models[i]->DrawBoudingBox();
+				m_ChildModels[i]->DrawBoudingBox();
 			}
 		}
 		else {
-			glBindVertexArray(bbvao);
-			glDrawElements(GL_LINES, (GLsizei)bbebo_data.size(), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			m_BoundingBoxVAO->Bind();
+			glDrawElements(GL_LINES, (GLsizei)m_BoundingBoxIBO_data.size(), GL_UNSIGNED_INT, 0);
+			m_BoundingBoxVAO->Unbind();
 		}
 	}
 
@@ -696,41 +725,41 @@ namespace smol {
 
 		if (f.IsOpen()) {
 			// Model size
-			size_t model_size = model->models.size();
+			size_t model_size = model->m_ChildModels.size();
 			f.Write(&model_size, sizeof(size_t));
 
 			// Material size
-			size_t mat_size = model->materials.size();
+			size_t mat_size = model->m_Materials.size();
 
 			f.Write(&mat_size, sizeof(size_t));
 			for (size_t i = 0; i < mat_size; i++) {
-				size_t name_size = model->materials[i].size();
+				size_t name_size = model->m_Materials[i].size();
 
 				f.Write(&name_size, sizeof(size_t));
-				f.Write(model->materials[i].c_str(), name_size);
+				f.Write(model->m_Materials[i].c_str(), name_size);
 			}
 
 			// Model list
 			for (size_t i = 0; i < model_size; i++) {
-				Model* c_model = model->models[i];
+				Model* c_model = model->m_ChildModels[i];
 
 				// Material index
 				size_t mat_ind = c_model->getMaterialIndex();
 				f.Write(&mat_ind, sizeof(size_t));
 
 				// Model vbo
-				size_t vbo_size = c_model->vbo_data.size();
+				size_t vbo_size = c_model->m_MeshVBO_data.size();
 				f.Write(&vbo_size, sizeof(size_t));
-				f.Write(c_model->vbo_data.data(), vbo_size * sizeof(float));
+				f.Write(c_model->m_MeshVBO_data.data(), vbo_size * sizeof(float));
 
 				// Model ebo
-				size_t ebo_size = c_model->ebo_data.size();
+				size_t ebo_size = c_model->m_MeshIBO_data.size();
 				f.Write(&ebo_size, sizeof(size_t));
-				f.Write(c_model->ebo_data.data(), ebo_size * sizeof(int));
+				f.Write(c_model->m_MeshIBO_data.data(), ebo_size * sizeof(int));
 			}
 
 			// Model hierarchy
-			SaveModelHierarchy(f, model->model_hierarchy);
+			SaveModelHierarchy(f, model->m_ModelHierarchy);
 		}
 
 		f.Close();
