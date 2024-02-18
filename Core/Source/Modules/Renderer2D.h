@@ -6,6 +6,8 @@
 #include "Render/Camera.h"
 #include "Render/EditorCamera.h"
 
+#include "Scene/Components.h"
+
 namespace smol {
 
 	class Renderer2D
@@ -40,7 +42,9 @@ namespace smol {
 		static void DrawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, int entityID = -1);
 		static void DrawRect(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
 
-		//TODO: Draw text, sprites... with SDL
+		//TODO: Draw text
+
+		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
 
 		static float GetLineWidth();
 		static void SetLineWidth(float width);

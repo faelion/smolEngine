@@ -11,7 +11,7 @@ IncludeDir["SPDLOG"] = "%{wks.location}/Vendor/spdlog/include"
 IncludeDir["JSON"] = "%{wks.location}/Vendor/rapidjson"
 IncludeDir["STB"] = "%{wks.location}/Vendor/stb"
 IncludeDir["GLI"] = "%{wks.location}/Vendor/gli/gli"
-
+IncludeDir["ENTT"] = "%{wks.location}/Vendor/entt/include"
 
 
 group "Dependencies"

@@ -74,15 +74,15 @@ namespace smol {
 	{
 		std::filesystem::path file_path = _assetToLibPath(file);
 		file_path.replace_extension(".dds");
-		ResourceId position = getResourcePosition(WRT_IMAGE, file_path.string().c_str());
-		size_t size = m_Resources[WRT_IMAGE].size();
+		ResourceId position = getResourcePosition(SRT_IMAGE, file_path.string().c_str());
+		size_t size = m_Resources[SRT_IMAGE].size();
 		
 		ResourceId resourceId;
 
 		if (position == size) {
 			Texture2D* image = new Texture2D(file_path.string().c_str(), true);
 
-			PushResource(WRT_IMAGE, file_path.string().c_str(), image);
+			PushResource(SRT_IMAGE, file_path.string().c_str(), image);
 
 			resourceId = size;
 		}
@@ -97,15 +97,15 @@ namespace smol {
 	{
 		std::string path = file;
 		standarizePath(path);
-		ResourceId position = getResourcePosition(WRT_IMAGE, path.c_str());
-		size_t size = m_Resources[WRT_IMAGE].size();
+		ResourceId position = getResourcePosition(SRT_IMAGE, path.c_str());
+		size_t size = m_Resources[SRT_IMAGE].size();
 		ImageSettings* settings = new ImageSettings();
 		ResourceId resourceId;
 
 		if (position == size) {
 			Texture2D* image = new Texture2D(path.c_str(), false);
 
-			PushResource(WRT_IMAGE, path.c_str(), image, true);
+			PushResource(SRT_IMAGE, path.c_str(), image, true);
 
 			resourceId = size;
 		}
@@ -120,8 +120,8 @@ namespace smol {
 	{
 		Texture2D* image = NULL;
 
-		if (id >= 0 && id < m_Resources[WRT_IMAGE].size()) {
-			image = static_cast<Texture2D*>(m_Resources[WRT_IMAGE][id]->resource);
+		if (id >= 0 && id < m_Resources[SRT_IMAGE].size()) {
+			image = static_cast<Texture2D*>(m_Resources[SRT_IMAGE][id]->resource);
 		}
 
 		return image;
@@ -143,6 +143,6 @@ namespace smol {
 	template<>
 	inline const char* Resources::getResourcePathById<Texture2D>(size_t id)
 	{
-		return getPathById(WRT_IMAGE, id);
+		return getPathById(SRT_IMAGE, id);
 	}
 }

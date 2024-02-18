@@ -4,7 +4,7 @@
 #include "stb_image.h"
 
 namespace smol {
-	std::vector<Resources::Resource*> Resources::m_Resources[Resources::WRT_LAST];
+	std::vector<Resources::Resource*> Resources::m_Resources[Resources::SRT_LAST];
 
 	Resources::Resources()
 	{
@@ -91,7 +91,7 @@ namespace smol {
 
 	void Resources::UnloadSceneResources()
 	{
-		for (size_t i = 0; i < WRT_LAST; i++)
+		for (size_t i = 0; i < SRT_LAST; i++)
 		{
 			for (size_t j = 0; j < m_Resources[i].size(); j++)
 			{
@@ -193,7 +193,7 @@ namespace smol {
 
 	void Resources::Clear()
 	{
-		for (int i = 0; i < WRT_LAST; i++) {
+		for (int i = 0; i < SRT_LAST; i++) {
 			size_t rsize = m_Resources[i].size();
 
 			for (size_t j = 0; j < rsize; j++) {

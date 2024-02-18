@@ -33,15 +33,15 @@ namespace smol {
 	template<>
 	inline ResourceId Resources::LoadNative<Model>(const char* file)
 	{
-		ResourceId position = getResourcePosition(WRT_MODEL, file);
-		size_t size = m_Resources[WRT_MODEL].size();
+		ResourceId position = getResourcePosition(SRT_MODEL, file);
+		size_t size = m_Resources[SRT_MODEL].size();
 
 		ResourceId resourceId;
 
 		if (position == size) {
 			Model* model = new Model(file);
 
-			PushResource(WRT_MODEL, file, model, true);
+			PushResource(SRT_MODEL, file, model, true);
 
 			resourceId = size;
 		}
@@ -56,8 +56,8 @@ namespace smol {
 	{
 		std::filesystem::path file_path = _assetToLibPath(file);
 		file_path.replace_extension(".smolmodel");
-		ResourceId position = getResourcePosition(WRT_MODEL, file_path.string().c_str());
-		size_t size = m_Resources[WRT_MODEL].size();
+		ResourceId position = getResourcePosition(SRT_MODEL, file_path.string().c_str());
+		size_t size = m_Resources[SRT_MODEL].size();
 
 		ResourceId resourceId;
 
@@ -66,7 +66,7 @@ namespace smol {
 			
 			model->LoadSmolMesh(file_path.string().c_str());
 
-			PushResource(WRT_MODEL, file_path.string().c_str(), model);
+			PushResource(SRT_MODEL, file_path.string().c_str(), model);
 
 			resourceId = size;
 		}
@@ -81,8 +81,8 @@ namespace smol {
 	{
 		Model* model = NULL;
 
-		if (id >= 0 && id < m_Resources[WRT_MODEL].size()) {
-			model = static_cast<Model*>(m_Resources[WRT_MODEL][id]->resource);
+		if (id >= 0 && id < m_Resources[SRT_MODEL].size()) {
+			model = static_cast<Model*>(m_Resources[SRT_MODEL][id]->resource);
 		}
 
 		return model;
@@ -106,6 +106,6 @@ namespace smol {
 	template<>
 	inline const char* Resources::getResourcePathById<Model>(size_t id)
 	{
-		return getPathById(WRT_MODEL, id);
+		return getPathById(SRT_MODEL, id);
 	}
 }

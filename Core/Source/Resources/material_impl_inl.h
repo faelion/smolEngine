@@ -31,8 +31,8 @@ namespace smol {
 		std::string file_path = library_file.string();
 		standarizePath(file_path);
 
-		ResourceId position = getResourcePosition(WRT_MATERIAL, file_path.c_str());
-		size_t size = m_Resources[WRT_MATERIAL].size();
+		ResourceId position = getResourcePosition(SRT_MATERIAL, file_path.c_str());
+		size_t size = m_Resources[SRT_MATERIAL].size();
 
 		ResourceId resourceId;
 
@@ -40,7 +40,7 @@ namespace smol {
 
 			Material* material = new Material(file_path.c_str());
 
-			PushResource(WRT_MATERIAL, file_path.c_str(), material);
+			PushResource(SRT_MATERIAL, file_path.c_str(), material);
 
 			resourceId = size;
 		}
@@ -55,8 +55,8 @@ namespace smol {
 	{
 		Material* material = NULL;
 
-		if (id >= 0 && id < m_Resources[WRT_MATERIAL].size()) {
-			material = static_cast<Material*>(m_Resources[WRT_MATERIAL][id]->resource);
+		if (id >= 0 && id < m_Resources[SRT_MATERIAL].size()) {
+			material = static_cast<Material*>(m_Resources[SRT_MATERIAL][id]->resource);
 		}
 
 		return material;
@@ -90,6 +90,6 @@ namespace smol {
 	template<>
 	inline const char* Resources::getResourcePathById<Material>(size_t id)
 	{
-		return getPathById(WRT_MATERIAL, id);
+		return getPathById(SRT_MATERIAL, id);
 	}
 }

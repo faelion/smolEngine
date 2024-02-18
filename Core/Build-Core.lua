@@ -26,7 +26,8 @@ project "smolEngine"
       "%{IncludeDir.Glew}",
 	  "%{IncludeDir.JSON}",
 	  "%{IncludeDir.STB}",
-	  "%{IncludeDir.GLI}"
+	  "%{IncludeDir.GLI}",
+	  "%{IncludeDir.ENTT}"
    }
 
    links

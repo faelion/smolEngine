@@ -22,8 +22,8 @@ namespace smol {
 	}
 	template<>
 	inline ResourceId Resources::LoadNative<Shader>(const char* file) {
-		ResourceId position = getResourcePosition(WRT_SHADER, file);
-		size_t size = m_Resources[WRT_SHADER].size();
+		ResourceId position = getResourcePosition(SRT_SHADER, file);
+		size_t size = m_Resources[SRT_SHADER].size();
 
 		ResourceId resourceId;
 
@@ -31,7 +31,7 @@ namespace smol {
 			Shader* shader = new Shader();
 
 			shader->Init(file);
-			PushResource(WRT_SHADER, file, shader);
+			PushResource(SRT_SHADER, file, shader);
 
 			resourceId = size;
 		}
@@ -48,8 +48,8 @@ namespace smol {
 		std::string file_path = library_file.string();
 		standarizePath(file_path);
 
-		ResourceId position = getResourcePosition(WRT_SHADER, file_path.c_str());
-		size_t size = m_Resources[WRT_SHADER].size();
+		ResourceId position = getResourcePosition(SRT_SHADER, file_path.c_str());
+		size_t size = m_Resources[SRT_SHADER].size();
 
 		ResourceId resourceId;
 
@@ -59,7 +59,7 @@ namespace smol {
 			shader->LoadFromSmolasset(file_path.c_str());
 
 			//shader->Compile(file);
-			PushResource(WRT_SHADER, file_path.c_str(), shader);
+			PushResource(SRT_SHADER, file_path.c_str(), shader);
 
 			resourceId = size;
 		}
@@ -75,8 +75,8 @@ namespace smol {
 	inline Shader* Resources::GetResourceById<Shader>(ResourceId id) {
 		Shader* resource = NULL;
 
-		if (id >= 0 && id < m_Resources[WRT_SHADER].size()) {
-			resource = static_cast<Shader*>(m_Resources[WRT_SHADER][id]->resource);
+		if (id >= 0 && id < m_Resources[SRT_SHADER].size()) {
+			resource = static_cast<Shader*>(m_Resources[SRT_SHADER][id]->resource);
 		}
 
 		return resource;
@@ -134,6 +134,6 @@ namespace smol {
 	template<>
 	inline const char* Resources::getResourcePathById<Shader>(size_t id)
 	{
-		return getPathById(WRT_SHADER, id);
+		return getPathById(SRT_SHADER, id);
 	}
 }

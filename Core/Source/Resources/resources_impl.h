@@ -63,12 +63,11 @@ namespace smol {
 	public:
 		// Enum that indicates all the resources that can be loaded by the engine
 		enum ResourceType {
-			WRT_IMAGE,
-			WRT_AUDIOCLIP, //TODO
-			WRT_SHADER,
-			WRT_MODEL,
-			WRT_MATERIAL,
-			WRT_LAST
+			SRT_IMAGE,
+			SRT_SHADER,
+			SRT_MODEL,
+			SRT_MATERIAL,
+			SRT_LAST
 		};
 		enum MetaResult
 		{
@@ -90,7 +89,7 @@ namespace smol {
 	private:
 		Resources();
 
-		static std::vector<Resource*> m_Resources[WRT_LAST];
+		static std::vector<Resource*> m_Resources[SRT_LAST];
 
 		static void PushResource(ResourceType rt, const char* file, void* rsc, bool isNative = false);
 		static ResourceId getResourcePosition(ResourceType rt, const char* file);
