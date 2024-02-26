@@ -59,8 +59,10 @@ namespace smol {
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color)
-			: Color(color) {}
+		SpriteRendererComponent(const ResourceId & id)
+			: TextureId(id) {}
+		SpriteRendererComponent(const ResourceId& id, const glm::vec4& color)
+			: TextureId(id), Color(color) {}
 	};
 
 	struct MeshRendererComponent
@@ -72,6 +74,8 @@ namespace smol {
 		MeshRendererComponent(const MeshRendererComponent&) = default;
 		MeshRendererComponent(const ResourceId& id)
 			: MeshId(id) {}
+		MeshRendererComponent(const ResourceId& id, const ResourceId& matId)
+			: MeshId(id), MaterialId(matId) {}
 	};
 
 	struct CircleRendererComponent
