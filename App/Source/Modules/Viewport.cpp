@@ -9,12 +9,17 @@ void Viewport::Init()
 {
 	m_FrameBuffer = std::make_shared<smol::FrameBuffer>(1280, 720, true);
 
+	m_EditorScene = std::make_shared<smol::Scene>();
+	m_ActiveScene = m_EditorScene;
+
 	m_EditorCamera = smol::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 	smol::Renderer2D::SetLineWidth(4.0f);
 }
 
 void Viewport::Update()
 {
+	m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
 	if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
 		(m_FrameBuffer->getWidth() != m_ViewportSize.x || m_FrameBuffer->getHeight() != m_ViewportSize.y))
 	{
@@ -22,6 +27,44 @@ void Viewport::Update()
 		m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 	}
 
+	switch (m_SceneState)
+	{
+	case SceneState::Edit:
+	{
+		if (m_ViewportFocused)
+
+		m_EditorCamera.OnUpdate();
+
+		m_ActiveScene->OnUpdateEditor(m_EditorCamera);
+		break;
+	}
+	case SceneState::Simulate:
+	{
+		m_EditorCamera.OnUpdate();
+
+		m_ActiveScene->OnUpdateSimulation(m_EditorCamera);
+		break;
+	}
+	case SceneState::Play:
+	{
+		m_ActiveScene->OnUpdateRuntime();
+		break;
+	}
+	}
+
+	auto [mx, my] = ImGui::GetMousePos();
+	mx -= m_ViewportBounds[0].x;
+	my -= m_ViewportBounds[0].y;
+	glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+	my = viewportSize.y - my;
+	int mouseX = (int)mx;
+	int mouseY = (int)my;
+
+	if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+	{
+		int pixelData = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
+		m_HoveredEntity = pixelData == -1 ? smol::Entity() : smol::Entity((entt::entity)pixelData, m_ActiveScene.get());
+	}
 
 
 	smol::Renderer2D::ResetStats();

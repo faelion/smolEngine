@@ -22,6 +22,7 @@ namespace smol {
 		void Unbind();
 
 		void Resize(uint32_t width, uint32_t height);
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y);
 
 		void Clear();
 		void ClearBuffer(int value);

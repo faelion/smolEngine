@@ -1,8 +1,7 @@
 #pragma once
-#pragma warning(disable : 4251)
 
-#include "rapidjson.h"
-#include "stringbuffer.h"
+#include "../rapidjson/rapidjson.h"
+#include "../rapidjson/stringbuffer.h"
 
 #include "JSONValue.h"
 #include <string>

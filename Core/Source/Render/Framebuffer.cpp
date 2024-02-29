@@ -107,6 +107,14 @@ namespace smol {
 		Reset(m_DepthActive);
 	}
 
+	int FrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	{
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
+	}
+
 	void FrameBuffer::Clear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);

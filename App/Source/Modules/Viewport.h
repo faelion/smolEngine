@@ -1,6 +1,6 @@
 #pragma once
 
-#include <smol.h>
+#include "smol.h"
 #include "Render/EditorCamera.h"
 
 
@@ -25,6 +25,11 @@ public:
 
 private:
 	std::shared_ptr<smol::FrameBuffer> m_FrameBuffer;
+
+	std::shared_ptr<smol::Scene> m_ActiveScene;
+	std::shared_ptr<smol::Scene> m_EditorScene;
+
+	smol::Entity m_HoveredEntity;
 
 	smol::EditorCamera m_EditorCamera;
 

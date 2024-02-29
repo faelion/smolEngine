@@ -54,7 +54,7 @@ namespace smol {
 	struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
-		ResourceId TextureId;
+		ResourceId TextureId = -1;
 		float TilingFactor = 1.0f;
 
 		SpriteRendererComponent() = default;
@@ -67,8 +67,8 @@ namespace smol {
 
 	struct MeshRendererComponent
 	{
-		ResourceId MeshId;
-		ResourceId MaterialId;
+		ResourceId MeshId = -1;
+		ResourceId MaterialId = -1;
 
 		MeshRendererComponent() = default;
 		MeshRendererComponent(const MeshRendererComponent&) = default;

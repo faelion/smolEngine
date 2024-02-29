@@ -10,6 +10,11 @@
 #include "CoreLayers/CoreLayer.h"
 #include "CoreLayers/ImguiLayer.h"
 
+#include "Scene/Scene.h"
+#include "Scene/Entity.h"
+#include "Scene/Components.h"
+
+
 
 // ---Renderer------------------------
 #include "Modules/Renderer.h"

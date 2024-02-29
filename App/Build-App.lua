@@ -14,6 +14,7 @@ project "smolEditor"
 	  "%{IncludeDir.SPDLOG}",
 	  "%{IncludeDir.ImGui}",
       "%{IncludeDir.GLM}",
+	  "%{IncludeDir.ENTT}",
       "%{IncludeDir.IconFontCppHeaders}",
 
 	  -- Include Core

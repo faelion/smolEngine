@@ -79,23 +79,3 @@ namespace smol
 	// To be defined in a client
 	App* CreateApplication(int argc, char** argv);
 }
-
-
-//Nota: Esto sirve para tener la cuenta de las clases que hay definidas, que mas tarde será útil para en el editor mostrar los componentes de los game objects
-
-#define USE_REFLECTION const size_t TYPE_COUNT = __COUNTER__;
-
-#define REFLECTION_BODY_INL \
-	size_t getAppTypeCount() const override { return TYPE_COUNT; } \
-	const Type* getAppType(size_t index) const override { return GET_TYPES()->at(index); } \
-	const Type* getAppTypeH(size_t hash) const override { \
-		const smol::Array<const Type*, TYPE_COUNT>* types = GET_TYPES(); \
-		const Type* type = NULL; \
-		for (size_t i = 0; i < TYPE_COUNT; i++) { \
-			if (types->at(i)->hash == hash) { \
-				type = types->at(i); \
-				break; \
-			} \
-		} \
-		return type; \
-	}
